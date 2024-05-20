@@ -1,0 +1,27 @@
+*{
+  box-sizing: border-box;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+
+  height: 100svh;
+  height: 100vh;
+
+  background-color: black;
+}
+
+body{
+  display: grid;
+  place-items: center;
+}
+
+#canvas {
+  width: 100% !important;
+  max-width: fit-content;
+  height: 100dvh !important;
+
+  object-fit: contain;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+}
