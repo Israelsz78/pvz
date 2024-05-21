@@ -12,6 +12,7 @@ let imagenesDePlantas;
 let plantasColocadas = []; 
 let celdasOcupadas = {};
 let plantaColocada = false;
+let imgPlanta1Selected, imgPlanta2Selected, imgPlanta3Selected, imgPlanta4Selected, imgPlanta5Selected;
 
 
 function preload() {
@@ -26,6 +27,11 @@ function preload() {
   imgPlanta3 = loadImage('assets/plantaLanzaguisante.png');
   imgPlanta4 = loadImage('assets/plantaMina.png');
   imgPlanta5 = loadImage('assets/plantaNuez.png');
+  imgPlanta1Selected = loadImage('assets/iconoEnojadaSelected.png');
+  imgPlanta2Selected = loadImage('assets/iconoGirasolSelected.png');
+  imgPlanta3Selected = loadImage('assets/iconoLanzaguisantesSelected.png');
+  imgPlanta4Selected = loadImage('assets/iconoMinaSelected.png');
+  imgPlanta5Selected = loadImage('assets/iconoNuezSelected.png');
 
 }
 
@@ -55,6 +61,14 @@ function draw() {
   image(planta3, 68, -4, 25, 31);
   image(planta4, 91, -2, 25, 29);
   image(planta5, 116, -8, 25, 32);
+
+  image(plantaSeleccionada === "Repetidora" ? imgPlanta1Selected : planta1, 129, 0, 41, 26);
+  image(plantaSeleccionada === "Girasol" ? imgPlanta2Selected : planta2, 39, -2, 29, 27);
+  image(plantaSeleccionada === "Lanzaguisante" ? imgPlanta3Selected : planta3, 68, -4, 25, 31);
+  image(plantaSeleccionada === "Mina" ? imgPlanta4Selected : planta4, 91, -2, 25, 29);
+  image(plantaSeleccionada === "Nuez" ? imgPlanta5Selected : planta5, 116, -8, 25, 32);
+
+
 
 
   let gridStartX = imgWidth * 0.03; 
@@ -99,23 +113,23 @@ function windowResized() {
 
 function mouseClicked() {
   if (mouseX >= 144 && mouseX <= 129 + 41 && mouseY >= 0 && mouseY <= 26) {
-    plantaSeleccionada = "Repetidora";
+    plantaSeleccionada = plantaSeleccionada === "Repetidora" ? null : "Repetidora";
     plantaColocada = false;
     console.log("Seleccionaste la planta Repetidora");
   } else if (mouseX >= 39 && mouseX <= 39 + 29 && mouseY >= -2 && mouseY <= -2 + 27) {
-    plantaSeleccionada = "Girasol";
+    plantaSeleccionada = plantaSeleccionada === "Girasol" ? null : "Girasol";
     plantaColocada = false;
     console.log("Seleccionaste la planta Girasol");
   } else if (mouseX >= 68 && mouseX <= 68 + 25 && mouseY >= -4 && mouseY <= -4 + 31) {
-    plantaSeleccionada = "Lanzaguisante";
+    plantaSeleccionada = plantaSeleccionada === "Lanzaguisante" ? null : "Lanzaguisante";
     plantaColocada = false;
     console.log("Seleccionaste la planta Lanzaguisante");
   } else if (mouseX >= 91 && mouseX <= 91 + 25 && mouseY >= -2 && mouseY <= -2 + 29) {
-    plantaSeleccionada = "Mina";
+    plantaSeleccionada = plantaSeleccionada === "Mina" ? null : "Mina";
     plantaColocada = false;
     console.log("Seleccionaste la planta Mina");
   } else if (mouseX >= 116 && mouseX <= 116 + 25 && mouseY >= -8 && mouseY <= -8 + 32) {
-    plantaSeleccionada = "Nuez";
+    plantaSeleccionada = plantaSeleccionada === "Nuez" ? null : "Nuez";
     plantaColocada = false;
     console.log("Seleccionaste la planta Nuez");
   }
@@ -145,8 +159,10 @@ function mouseClicked() {
     celdasOcupadas[celdaKey] = true;
     plantaColocada = true;
     console.log(`Has colocado ${plantaSeleccionada} en la fila ${row}, columna ${column}`);
+    plantaSeleccionada = null;
   }
 } else if (celdasOcupadas[celdaKey]) {
   console.log(`La celda fila ${row}, columna ${column} ya está ocupada.`);
+  
 }
 }
