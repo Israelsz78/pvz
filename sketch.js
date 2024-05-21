@@ -13,7 +13,7 @@ let plantasColocadas = [];
 let celdasOcupadas = {};
 let plantaColocada = false;
 let imgPlanta1Selected, imgPlanta2Selected, imgPlanta3Selected, imgPlanta4Selected, imgPlanta5Selected;
-
+let imgSol;
 
 function preload() {
   imgFondo = loadImage('assets/escenario.png');
@@ -32,6 +32,7 @@ function preload() {
   imgPlanta3Selected = loadImage('assets/iconoLanzaguisantesSelected.png');
   imgPlanta4Selected = loadImage('assets/iconoMinaSelected.png');
   imgPlanta5Selected = loadImage('assets/iconoNuezSelected.png');
+  imgSol = loadImage('assets/iconoSol.png');
 
 }
 
@@ -56,6 +57,7 @@ function draw() {
   let centerY = 0;
   image(imgFondo, centerX, centerY);
 
+  image(imgSol, 19,-1,17,17);
   image(planta1, 129, 0, 41, 26);
   image(planta2, 39, -2, 29, 27);
   image(planta3, 68, -4, 25, 31);
