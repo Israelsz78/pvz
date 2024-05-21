@@ -4,6 +4,9 @@ let imgFondo;
 const imgWidth = 256;
 const imgHeight = 192; 
 let planta1, planta2, planta3, planta4, planta5;
+let plantaSeleccionada = null;
+let startX = 28;  // Inicio de los iconos en el eje X
+let startY = 0; 
 
 function preload() {
   imgFondo = loadImage('assets/escenario.png');
@@ -28,12 +31,11 @@ function draw() {
   let centerY = 0;
   image(imgFondo, centerX, centerY);
 
-  let startX = 28;  // Inicio de los iconos en el eje X
-  let startY = 0;  // Inicio de los iconos en el eje Y
+   // Inicio de los iconos en el eje Y
 
   // Dibujar cada planta
   image(planta1, 129, 0, 41, 26);
-  image(planta2, -22, -2, 90, 38);
+  image(planta2, 39, -2, 29, 27);
   image(planta3, 68, -4, 25, 31);
   image(planta4, 91, -2, 25, 29);
   image(planta5, 116, -8, 25, 32);
@@ -67,6 +69,23 @@ function windowResized() {
 }
 
 function mouseClicked() {
+  if (mouseX >= 129 && mouseX <= 129 + 41 && mouseY >= 0 && mouseY <= 26) {
+    plantaSeleccionada = "Repetidora";
+    console.log("Seleccionaste la planta Repetidora");
+  } else if (mouseX >= 39 && mouseX <= 39 + 29 && mouseY >= -2 && mouseY <= -2 + 27) {
+    plantaSeleccionada = "Girasol";
+    console.log("Seleccionaste la planta Girasol");
+  } else if (mouseX >= 68 && mouseX <= 68 + 25 && mouseY >= -4 && mouseY <= -4 + 31) {
+    plantaSeleccionada = "Lanzaguisante";
+    console.log("Seleccionaste la planta Lanzaguisante");
+  } else if (mouseX >= 91 && mouseX <= 91 + 25 && mouseY >= -2 && mouseY <= -2 + 29) {
+    plantaSeleccionada = "Mina";
+    console.log("Seleccionaste la planta Mina");
+  } else if (mouseX >= 116 && mouseX <= 116 + 25 && mouseY >= -8 && mouseY <= -8 + 32) {
+    plantaSeleccionada = "Nuez";
+    console.log("Seleccionaste la planta Nuez");
+  }
+  
   let gridStartX = imgWidth * 0.03;
   let gridStartY = imgHeight * 0.13;
   let gridWidth = imgWidth * 0.91;
@@ -74,15 +93,16 @@ function mouseClicked() {
 
   let cellWidth = gridWidth / 9;
   let cellHeight = gridHeight / 5;
-  
-  // Calcular en qué columna y fila se hizo clic teniendo en cuenta gridStartX y gridStartY
+
   let column = Math.floor((mouseX - gridStartX) / cellWidth);
   let row = Math.floor((mouseY - gridStartY) / cellHeight);
-  
-  // Asegurarse de que el clic esté dentro de los límites de la cuadrícula
-  if (mouseX >= gridStartX && mouseX < gridStartX + gridWidth &&
+
+  if (plantaSeleccionada && mouseX >= gridStartX && mouseX < gridStartX + gridWidth &&
       mouseY >= gridStartY && mouseY < gridStartY + gridHeight) {
-    console.log(`Clic en la celda: fila ${row}, columna ${column}`);
+    console.log(`Has colocado ${plantaSeleccionada} en la fila ${row}, columna ${column}`);
   }
 }
+
+
+
 
