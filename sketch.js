@@ -3,9 +3,16 @@ let canvas_height
 let imgFondo;
 const imgWidth = 256;
 const imgHeight = 192; 
+let planta1, planta2, planta3, planta4, planta5;
 
 function preload() {
   imgFondo = loadImage('assets/escenario.png');
+  planta1 = loadImage('assets/iconoEnojada.png');
+  planta2 = loadImage('assets/iconoGirasol.png');
+  planta3 = loadImage('assets/iconoLanzaguisante.png');
+  planta4 = loadImage('assets/iconoMina.png');
+  planta5 = loadImage('assets/iconoNuez.png');
+  
 
 }
 
@@ -20,6 +27,17 @@ function draw() {
   let centerX = 0;
   let centerY = 0;
   image(imgFondo, centerX, centerY);
+
+  let startX = 28;  // Inicio de los iconos en el eje X
+  let startY = 0;  // Inicio de los iconos en el eje Y
+
+  // Dibujar cada planta
+  image(planta1, 129, 0, 41, 26);
+  image(planta2, -22, -2, 90, 38);
+  image(planta3, 68, -4, 25, 31);
+  image(planta4, 91, -2, 25, 29);
+  image(planta5, 116, -8, 25, 32);
+
 
   let gridStartX = imgWidth * 0.03; // Inicia a un 25% del ancho de la imagen
   let gridStartY = imgHeight * 0.13; // Inicia a un 25% del alto de la imagen
