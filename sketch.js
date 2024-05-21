@@ -5,8 +5,12 @@ const imgWidth = 256;
 const imgHeight = 192; 
 let planta1, planta2, planta3, planta4, planta5;
 let plantaSeleccionada = null;
-let startX = 28;  // Inicio de los iconos en el eje X
+let startX = 28;
 let startY = 0; 
+let imgPlanta1, imgPlanta2, imgPlanta3, imgPlanta4, imgPlanta5;
+let imagenesDePlantas;
+let plantasColocadas = []; 
+
 
 function preload() {
   imgFondo = loadImage('assets/escenario.png');
@@ -15,7 +19,11 @@ function preload() {
   planta3 = loadImage('assets/iconoLanzaguisante.png');
   planta4 = loadImage('assets/iconoMina.png');
   planta5 = loadImage('assets/iconoNuez.png');
-  
+  imgPlanta1 = loadImage('assets/plantaEnojada.png'); 
+  imgPlanta2 = loadImage('assets/plantaGirasol.png');
+  imgPlanta3 = loadImage('assets/plantaLanzaguisante.png');
+  imgPlanta4 = loadImage('assets/plantaMina.png');
+  imgPlanta5 = loadImage('assets/plantaNuez.png');
 
 }
 
@@ -23,17 +31,22 @@ function setup() {
   createCanvas(imgWidth, imgHeight, P2D,canvas);
   canvas_height= (canvas. clientWidth / width) * height
   canvas.style.setProperty('height', `${canvas_height}px`, 'important')
-
+imagenesDePlantas = {
+  "Repetidora": imgPlanta1,
+  "Girasol": imgPlanta2,
+  "Lanzaguisante": imgPlanta3,
+  "Mina": imgPlanta4,
+  "Nuez": imgPlanta5
 }
+};
 
 function draw() {
+  background(255);
+
   let centerX = 0;
   let centerY = 0;
   image(imgFondo, centerX, centerY);
 
-   // Inicio de los iconos en el eje Y
-
-  // Dibujar cada planta
   image(planta1, 129, 0, 41, 26);
   image(planta2, 39, -2, 29, 27);
   image(planta3, 68, -4, 25, 31);
@@ -41,35 +54,43 @@ function draw() {
   image(planta5, 116, -8, 25, 32);
 
 
-  let gridStartX = imgWidth * 0.03; // Inicia a un 25% del ancho de la imagen
-  let gridStartY = imgHeight * 0.13; // Inicia a un 25% del alto de la imagen
-  let gridWidth = imgWidth * 0.91; // El ancho de la cuadrícula es el 50% del ancho de la imagen
-  let gridHeight = imgHeight * 0.83; // El alto de la cuadrícula es el 50% del alto de la imagen
+  let gridStartX = imgWidth * 0.03; 
+  let gridStartY = imgHeight * 0.13; 
+  let gridWidth = imgWidth * 0.91; 
+  let gridHeight = imgHeight * 0.83; 
 
-  let cellWidth = gridWidth / 9; // Usa gridWidth para calcular el ancho de las celdas
-  let cellHeight = gridHeight / 5; // Usa gridHeight para calcular el alto de las celdas
+  let cellWidth = gridWidth / 9;
+  let cellHeight = gridHeight / 5; 
 
-  stroke(0); // Color del borde de la cuadrícula, blanco para este ejemplo
+  stroke(0); 
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 5; j++) {
-      let x = gridStartX + i * cellWidth; // Ajusta la posición x basándose en gridStartX
-      let y = gridStartY + j * cellHeight; // Ajusta la posición y basándose en gridStartY
+      let x = gridStartX + i * cellWidth;
+      let y = gridStartY + j * cellHeight;
       noFill();
       rect(x, y, cellWidth, cellHeight);
     }
+  }
+
+  let scaleFactor = 0.8;
+  for (let planta of plantasColocadas) {
+    let imgWidthScaled = cellWidth * scaleFactor;
+    let imgHeightScaled = cellHeight * scaleFactor;
+    let imgX = planta.x + (cellWidth - imgWidthScaled) / 2;
+    let imgY = planta.y + (cellHeight - imgHeightScaled) / 2;
+    image(planta.img, imgX, imgY, imgWidthScaled, imgHeightScaled);
   }
 }
 
 
 function windowResized() {
-  //resizeCanvas(windowWidth, windowHeight);
   canvas.style.removeProperty("height")
   canvas_height= (canvas. clientWidth / width) * height
   canvas.style.setProperty('height', `${canvas_height}px`, 'important')
 }
 
 function mouseClicked() {
-  if (mouseX >= 129 && mouseX <= 129 + 41 && mouseY >= 0 && mouseY <= 26) {
+  if (mouseX >= 144 && mouseX <= 129 + 41 && mouseY >= 0 && mouseY <= 26) {
     plantaSeleccionada = "Repetidora";
     console.log("Seleccionaste la planta Repetidora");
   } else if (mouseX >= 39 && mouseX <= 39 + 29 && mouseY >= -2 && mouseY <= -2 + 27) {
@@ -98,10 +119,18 @@ function mouseClicked() {
   let row = Math.floor((mouseY - gridStartY) / cellHeight);
 
   if (plantaSeleccionada && mouseX >= gridStartX && mouseX < gridStartX + gridWidth &&
-      mouseY >= gridStartY && mouseY < gridStartY + gridHeight) {
+    mouseY >= gridStartY && mouseY < gridStartY + gridHeight) {
+  let imgPlanta = imagenesDePlantas[plantaSeleccionada];
+  if (imgPlanta) {
+    let x = gridStartX + column * cellWidth + (cellWidth - imgPlanta.width) / 2;
+    let y = gridStartY + row * cellHeight + (cellHeight - imgPlanta.height) / 2;
+
+    plantasColocadas.push({ img: imgPlanta, x: x, y: y });
     console.log(`Has colocado ${plantaSeleccionada} en la fila ${row}, columna ${column}`);
   }
 }
+}
+
 
 
 
