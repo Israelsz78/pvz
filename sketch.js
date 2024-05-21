@@ -10,6 +10,7 @@ let startY = 0;
 let imgPlanta1, imgPlanta2, imgPlanta3, imgPlanta4, imgPlanta5;
 let imagenesDePlantas;
 let plantasColocadas = []; 
+let celdasOcupadas = {};
 
 
 function preload() {
@@ -29,6 +30,7 @@ function preload() {
 
 function setup() {
   createCanvas(imgWidth, imgHeight, P2D,canvas);
+  smooth();
   canvas_height= (canvas. clientWidth / width) * height
   canvas.style.setProperty('height', `${canvas_height}px`, 'important')
 imagenesDePlantas = {
@@ -72,12 +74,17 @@ function draw() {
     }
   }
 
-  let scaleFactor = 0.8;
+  let scaleFactor = 1;
   for (let planta of plantasColocadas) {
     let imgWidthScaled = cellWidth * scaleFactor;
     let imgHeightScaled = cellHeight * scaleFactor;
     let imgX = planta.x + (cellWidth - imgWidthScaled) / 2;
     let imgY = planta.y + (cellHeight - imgHeightScaled) / 2;
+
+    if (planta.img === imgPlanta4) {
+      imgY += 7;
+      imgX += 2; 
+  }
     image(planta.img, imgX, imgY, imgWidthScaled, imgHeightScaled);
   }
 }
@@ -118,15 +125,21 @@ function mouseClicked() {
   let column = Math.floor((mouseX - gridStartX) / cellWidth);
   let row = Math.floor((mouseY - gridStartY) / cellHeight);
 
-  if (plantaSeleccionada && mouseX >= gridStartX && mouseX < gridStartX + gridWidth &&
+   // Clave única para cada celda
+   let celdaKey = `r${row}c${column}`;
+
+   if (plantaSeleccionada && mouseX >= gridStartX && mouseX < gridStartX + gridWidth &&
     mouseY >= gridStartY && mouseY < gridStartY + gridHeight) {
   let imgPlanta = imagenesDePlantas[plantaSeleccionada];
-  if (imgPlanta) {
+  if (imgPlanta && !celdasOcupadas[celdaKey]) {  // Checa si la celda no está ya ocupada
     let x = gridStartX + column * cellWidth + (cellWidth - imgPlanta.width) / 2;
     let y = gridStartY + row * cellHeight + (cellHeight - imgPlanta.height) / 2;
 
     plantasColocadas.push({ img: imgPlanta, x: x, y: y });
+    celdasOcupadas[celdaKey] = true;  // Marca la celda como ocupada
     console.log(`Has colocado ${plantaSeleccionada} en la fila ${row}, columna ${column}`);
+  } else if (celdasOcupadas[celdaKey]) {
+    console.log(`La celda fila ${row}, columna ${column} ya está ocupada.`);
   }
 }
 }
