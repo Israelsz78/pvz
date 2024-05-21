@@ -11,6 +11,7 @@ let imgPlanta1, imgPlanta2, imgPlanta3, imgPlanta4, imgPlanta5;
 let imagenesDePlantas;
 let plantasColocadas = []; 
 let celdasOcupadas = {};
+let plantaColocada = false;
 
 
 function preload() {
@@ -99,18 +100,23 @@ function windowResized() {
 function mouseClicked() {
   if (mouseX >= 144 && mouseX <= 129 + 41 && mouseY >= 0 && mouseY <= 26) {
     plantaSeleccionada = "Repetidora";
+    plantaColocada = false;
     console.log("Seleccionaste la planta Repetidora");
   } else if (mouseX >= 39 && mouseX <= 39 + 29 && mouseY >= -2 && mouseY <= -2 + 27) {
     plantaSeleccionada = "Girasol";
+    plantaColocada = false;
     console.log("Seleccionaste la planta Girasol");
   } else if (mouseX >= 68 && mouseX <= 68 + 25 && mouseY >= -4 && mouseY <= -4 + 31) {
     plantaSeleccionada = "Lanzaguisante";
+    plantaColocada = false;
     console.log("Seleccionaste la planta Lanzaguisante");
   } else if (mouseX >= 91 && mouseX <= 91 + 25 && mouseY >= -2 && mouseY <= -2 + 29) {
     plantaSeleccionada = "Mina";
+    plantaColocada = false;
     console.log("Seleccionaste la planta Mina");
   } else if (mouseX >= 116 && mouseX <= 116 + 25 && mouseY >= -8 && mouseY <= -8 + 32) {
     plantaSeleccionada = "Nuez";
+    plantaColocada = false;
     console.log("Seleccionaste la planta Nuez");
   }
   
@@ -125,26 +131,22 @@ function mouseClicked() {
   let column = Math.floor((mouseX - gridStartX) / cellWidth);
   let row = Math.floor((mouseY - gridStartY) / cellHeight);
 
-   // Clave única para cada celda
+  
    let celdaKey = `r${row}c${column}`;
 
-   if (plantaSeleccionada && mouseX >= gridStartX && mouseX < gridStartX + gridWidth &&
+   if (plantaSeleccionada && !plantaColocada && !celdasOcupadas[celdaKey] && 
+    mouseX >= gridStartX && mouseX < gridStartX + gridWidth &&
     mouseY >= gridStartY && mouseY < gridStartY + gridHeight) {
   let imgPlanta = imagenesDePlantas[plantaSeleccionada];
-  if (imgPlanta && !celdasOcupadas[celdaKey]) {  // Checa si la celda no está ya ocupada
+  if (imgPlanta) { 
     let x = gridStartX + column * cellWidth + (cellWidth - imgPlanta.width) / 2;
     let y = gridStartY + row * cellHeight + (cellHeight - imgPlanta.height) / 2;
-
     plantasColocadas.push({ img: imgPlanta, x: x, y: y });
-    celdasOcupadas[celdaKey] = true;  // Marca la celda como ocupada
+    celdasOcupadas[celdaKey] = true;
+    plantaColocada = true;
     console.log(`Has colocado ${plantaSeleccionada} en la fila ${row}, columna ${column}`);
-  } else if (celdasOcupadas[celdaKey]) {
-    console.log(`La celda fila ${row}, columna ${column} ya está ocupada.`);
   }
+} else if (celdasOcupadas[celdaKey]) {
+  console.log(`La celda fila ${row}, columna ${column} ya está ocupada.`);
 }
 }
-
-
-
-
-
