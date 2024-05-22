@@ -1,19 +1,21 @@
-const canvas=document.getElementById("canvas")
+const canvas = document.getElementById("canvas")
 let canvas_height
 let imgFondo;
 const imgWidth = 256;
-const imgHeight = 192; 
+const imgHeight = 192;
 let planta1, planta2, planta3, planta4, planta5;
 let plantaSeleccionada = null;
 let startX = 28;
-let startY = 0; 
+let startY = 0;
 let imgPlanta1, imgPlanta2, imgPlanta3, imgPlanta4, imgPlanta5;
 let imagenesDePlantas;
-let plantasColocadas = []; 
+let plantasColocadas = [];
 let celdasOcupadas = {};
 let plantaColocada = false;
 let imgPlanta1Selected, imgPlanta2Selected, imgPlanta3Selected, imgPlanta4Selected, imgPlanta5Selected;
 let imgSol;
+let zombieNormal;
+let zombie;
 
 function preload() {
   imgFondo = loadImage('assets/escenario.png');
@@ -22,7 +24,7 @@ function preload() {
   planta3 = loadImage('assets/iconoLanzaguisante.png');
   planta4 = loadImage('assets/iconoMina.png');
   planta5 = loadImage('assets/iconoNuez.png');
-  imgPlanta1 = loadImage('assets/plantaEnojada.png'); 
+  imgPlanta1 = loadImage('assets/plantaEnojada.png');
   imgPlanta2 = loadImage('assets/plantaGirasol.png');
   imgPlanta3 = loadImage('assets/plantaLanzaguisante.png');
   imgPlanta4 = loadImage('assets/plantaMina.png');
@@ -33,21 +35,22 @@ function preload() {
   imgPlanta4Selected = loadImage('assets/iconoMinaSelected.png');
   imgPlanta5Selected = loadImage('assets/iconoNuezSelected.png');
   imgSol = loadImage('assets/iconoSol.png');
-
+  zombieNormal = loadImage('assets/zombieNormal.png');
 }
 
 function setup() {
-  createCanvas(imgWidth, imgHeight, P2D,canvas);
+  createCanvas(imgWidth, imgHeight, P2D, canvas);
   smooth();
-  canvas_height= (canvas. clientWidth / width) * height
+  canvas_height = (canvas.clientWidth / width) * height
   canvas.style.setProperty('height', `${canvas_height}px`, 'important')
-imagenesDePlantas = {
-  "Repetidora": imgPlanta1,
-  "Girasol": imgPlanta2,
-  "Lanzaguisante": imgPlanta3,
-  "Mina": imgPlanta4,
-  "Nuez": imgPlanta5
-}
+  imagenesDePlantas = {
+    "Repetidora": imgPlanta1,
+    "Girasol": imgPlanta2,
+    "Lanzaguisante": imgPlanta3,
+    "Mina": imgPlanta4,
+    "Nuez": imgPlanta5
+  }
+  zombie = new Zombie(zombieNormal, 0.06, 100);
 };
 
 function draw() {
@@ -57,7 +60,7 @@ function draw() {
   let centerY = 0;
   image(imgFondo, centerX, centerY);
 
-  image(imgSol, 19,-1,17,17);
+  image(imgSol, 19, -1, 17, 17);
   image(planta1, 129, 0, 41, 26);
   image(planta2, 39, -2, 29, 27);
   image(planta3, 68, -4, 25, 31);
@@ -73,15 +76,15 @@ function draw() {
 
 
 
-  let gridStartX = imgWidth * 0.03; 
-  let gridStartY = imgHeight * 0.13; 
-  let gridWidth = imgWidth * 0.91; 
-  let gridHeight = imgHeight * 0.83; 
+  let gridStartX = imgWidth * 0.03;
+  let gridStartY = imgHeight * 0.13;
+  let gridWidth = imgWidth * 0.91;
+  let gridHeight = imgHeight * 0.83;
 
   let cellWidth = gridWidth / 9;
-  let cellHeight = gridHeight / 5; 
+  let cellHeight = gridHeight / 5;
 
-  stroke(0); 
+  stroke(0);
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 5; j++) {
       let x = gridStartX + i * cellWidth;
@@ -100,16 +103,18 @@ function draw() {
 
     if (planta.img === imgPlanta4) {
       imgY += 7;
-      imgX += 2; 
-  }
+      imgX += 2;
+    }
     image(planta.img, imgX, imgY, imgWidthScaled, imgHeightScaled);
   }
+
+  zombie.mover();
 }
 
 
 function windowResized() {
   canvas.style.removeProperty("height")
-  canvas_height= (canvas. clientWidth / width) * height
+  canvas_height = (canvas.clientWidth / width) * height
   canvas.style.setProperty('height', `${canvas_height}px`, 'important')
 }
 
@@ -135,7 +140,7 @@ function mouseClicked() {
     plantaColocada = false;
     console.log("Seleccionaste la planta Nuez");
   }
-  
+
   let gridStartX = imgWidth * 0.03;
   let gridStartY = imgHeight * 0.13;
   let gridWidth = imgWidth * 0.91;
@@ -147,24 +152,24 @@ function mouseClicked() {
   let column = Math.floor((mouseX - gridStartX) / cellWidth);
   let row = Math.floor((mouseY - gridStartY) / cellHeight);
 
-  
-   let celdaKey = `r${row}c${column}`;
 
-   if (plantaSeleccionada && !plantaColocada && !celdasOcupadas[celdaKey] && 
+  let celdaKey = `r${row}c${column}`;
+
+  if (plantaSeleccionada && !plantaColocada && !celdasOcupadas[celdaKey] &&
     mouseX >= gridStartX && mouseX < gridStartX + gridWidth &&
     mouseY >= gridStartY && mouseY < gridStartY + gridHeight) {
-  let imgPlanta = imagenesDePlantas[plantaSeleccionada];
-  if (imgPlanta) { 
-    let x = gridStartX + column * cellWidth + (cellWidth - imgPlanta.width) / 2;
-    let y = gridStartY + row * cellHeight + (cellHeight - imgPlanta.height) / 2;
-    plantasColocadas.push({ img: imgPlanta, x: x, y: y });
-    celdasOcupadas[celdaKey] = true;
-    plantaColocada = true;
-    console.log(`Has colocado ${plantaSeleccionada} en la fila ${row}, columna ${column}`);
-    plantaSeleccionada = null;
+    let imgPlanta = imagenesDePlantas[plantaSeleccionada];
+    if (imgPlanta) {
+      let x = gridStartX + column * cellWidth + (cellWidth - imgPlanta.width) / 2;
+      let y = gridStartY + row * cellHeight + (cellHeight - imgPlanta.height) / 2;
+      plantasColocadas.push({ img: imgPlanta, x: x, y: y });
+      celdasOcupadas[celdaKey] = true;
+      plantaColocada = true;
+      console.log(`Has colocado ${plantaSeleccionada} en la fila ${row}, columna ${column}`);
+      plantaSeleccionada = null;
+    }
+  } else if (celdasOcupadas[celdaKey]) {
+    console.log(`La celda fila ${row}, columna ${column} ya está ocupada.`);
+
   }
-} else if (celdasOcupadas[celdaKey]) {
-  console.log(`La celda fila ${row}, columna ${column} ya está ocupada.`);
-  
-}
 }
