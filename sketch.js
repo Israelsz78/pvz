@@ -14,8 +14,10 @@ let celdasOcupadas = {};
 let plantaColocada = false;
 let imgPlanta1Selected, imgPlanta2Selected, imgPlanta3Selected, imgPlanta4Selected, imgPlanta5Selected;
 let imgSol;
-let zombieNormal;
+let zombieNormal, zombieCono, zombieCubo, zombieYeti;
+let zombies = [];
 let zombie;
+let numeroAleatorio;
 
 function preload() {
   imgFondo = loadImage('assets/escenario.png');
@@ -36,6 +38,9 @@ function preload() {
   imgPlanta5Selected = loadImage('assets/iconoNuezSelected.png');
   imgSol = loadImage('assets/iconoSol.png');
   zombieNormal = loadImage('assets/zombieNormal.png');
+  zombieCono = loadImage('assets/zombieCono.png');
+  zombieCubo = loadImage('assets/zombieCubo.png');
+  zombieYeti = loadImage('assets/zombieYeti.png');
 }
 
 function setup() {
@@ -50,7 +55,9 @@ function setup() {
     "Mina": imgPlanta4,
     "Nuez": imgPlanta5
   }
-  zombie = new Zombie(zombieNormal, 0.06, 100);
+  numeroAleatorio = Math.floor(Math.random() * 4);
+  zombies = [zombieNormal, zombieCono, zombieCubo, zombieYeti];
+  zombie = new Zombie(zombies[numeroAleatorio], 0.06, 100);
 };
 
 function draw() {
