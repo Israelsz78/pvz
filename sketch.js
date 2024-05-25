@@ -19,7 +19,11 @@ let zombies = [];
 let zombie;
 let numeroAleatorio;
 let imgActualSeguirCursor = null;
- 
+let zombiesCreados = [];
+
+var periodoT = 5000;
+var registroT;
+
 
 function preload() {
   imgFondo = loadImage('assets/escenario.png');
@@ -60,11 +64,12 @@ function setup() {
     "Nuez": imgPlanta5
   }
 
-  
-
   numeroAleatorio = Math.floor(Math.random() * 4);
   zombies = [zombieNormal, zombieCono, zombieCubo, zombieYeti];
   zombie = new Zombie(zombies[numeroAleatorio], 0.06, 100);
+
+  cBack = color(255);
+  registroT = millis();
 };
 
 function draw() {
@@ -85,9 +90,6 @@ function draw() {
   image(plantaSeleccionada === "Lanzaguisante" ? imgPlanta3Selected : planta3, 68, -4, 25, 31);
   image(plantaSeleccionada === "Mina" ? imgPlanta4Selected : planta4, 91, -2, 25, 29);
   image(plantaSeleccionada === "Nuez" ? imgPlanta5Selected : planta5, 116, -8, 25, 32);
-
-
-
 
   let gridStartX = imgWidth * 0.03;
   let gridStartY = imgHeight * 0.13;
@@ -126,6 +128,16 @@ function draw() {
 
 
   zombie.mover();
+  var tAct = millis();
+  var difT = tAct - registroT;
+  if (difT >= periodoT) {
+    dibujarZombie();
+    registroT = tAct;
+  }
+
+  zombiesCreados.forEach((zombie) => {
+    zombie.mover();
+  })
 }
 
 
@@ -139,47 +151,47 @@ function mouseClicked() {
   if (mouseX >= 144 && mouseX <= 129 + 41 && mouseY >= 0 && mouseY <= 26) {
     if (plantaSeleccionada === "Repetidora") {
       plantaSeleccionada = null;
-      imgActualSeguirCursor = null;  
+      imgActualSeguirCursor = null;
     } else {
       plantaSeleccionada = "Repetidora";
-      imgActualSeguirCursor = imgPlanta1; 
+      imgActualSeguirCursor = imgPlanta1;
     }
     plantaColocada = false;
     console.log("Seleccionaste la planta Repetidora");
   }
 
 
-    if (mouseX >= 39 && mouseX <= 39 + 29 && mouseY >= -2 && mouseY <= -2 + 27) {
+  if (mouseX >= 39 && mouseX <= 39 + 29 && mouseY >= -2 && mouseY <= -2 + 27) {
     if (plantaSeleccionada === "Girasol") {
       plantaSeleccionada = null;
-      imgActualSeguirCursor = null;  
+      imgActualSeguirCursor = null;
     } else {
       plantaSeleccionada = "Girasol";
-      imgActualSeguirCursor = imgPlanta2; 
+      imgActualSeguirCursor = imgPlanta2;
     }
     plantaColocada = false;
     console.log("Seleccionaste la planta Girasol");
   }
 
-   if (mouseX >= 68 && mouseX <= 68 + 25 && mouseY >= -4 && mouseY <= -4 + 31) {
+  if (mouseX >= 68 && mouseX <= 68 + 25 && mouseY >= -4 && mouseY <= -4 + 31) {
     if (plantaSeleccionada === "Lanzaguisante") {
       plantaSeleccionada = null;
-      imgActualSeguirCursor = null;  
+      imgActualSeguirCursor = null;
     } else {
       plantaSeleccionada = "Lanzaguisante";
-      imgActualSeguirCursor = imgPlanta3; 
+      imgActualSeguirCursor = imgPlanta3;
     }
     plantaColocada = false;
     console.log("Seleccionaste la planta Lanzaguisante");
   }
 
-   if (mouseX >= 91 && mouseX <= 91 + 25 && mouseY >= -2 && mouseY <= -2 + 29) {
+  if (mouseX >= 91 && mouseX <= 91 + 25 && mouseY >= -2 && mouseY <= -2 + 29) {
     if (plantaSeleccionada === "Mina") {
       plantaSeleccionada = null;
-      imgActualSeguirCursor = null;  
+      imgActualSeguirCursor = null;
     } else {
       plantaSeleccionada = "Mina";
-      imgActualSeguirCursor = imgPlanta4; 
+      imgActualSeguirCursor = imgPlanta4;
     }
     plantaColocada = false;
     console.log("Seleccionaste la planta Mina");
@@ -188,10 +200,10 @@ function mouseClicked() {
   if (mouseX >= 116 && mouseX <= 116 + 25 && mouseY >= -8 && mouseY <= -8 + 32) {
     if (plantaSeleccionada === "Nuez") {
       plantaSeleccionada = null;
-      imgActualSeguirCursor = null;  
+      imgActualSeguirCursor = null;
     } else {
       plantaSeleccionada = "Nuez";
-      imgActualSeguirCursor = imgPlanta5; 
+      imgActualSeguirCursor = imgPlanta5;
     }
     plantaColocada = false;
     console.log("Seleccionaste la planta Nuez");
@@ -228,4 +240,10 @@ function mouseClicked() {
       imgActualSeguirCursor = null;  // Dejar de seguir al cursor después de colocar la planta
     }
   }
+}
+
+function dibujarZombie() {
+  numeroAleatorio = Math.floor(Math.random() * 4);
+  let newZombie = new Zombie(zombies[numeroAleatorio], 0.06, 100)
+  zombiesCreados.push(newZombie);
 }
