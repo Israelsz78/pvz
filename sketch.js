@@ -53,6 +53,7 @@ function preload() {
 function setup() {
   createCanvas(imgWidth, imgHeight, P2D, canvas);
   smooth();
+  pixelDensity(1);
   canvas_height = (canvas.clientWidth / width) * height
   canvas.style.setProperty('height', `${canvas_height}px`, 'important')
 
@@ -106,8 +107,16 @@ function draw() {
       let y = gridStartY + j * cellHeight;
       noFill();
       rect(x, y, cellWidth, cellHeight);
+      if (plantaSeleccionada && mouseX > x && mouseX < x + cellWidth && mouseY > y && mouseY < y + cellHeight) {
+        let imgPlanta = imagenesDePlantas[plantaSeleccionada];
+        tint(255, 200);
+        image(imgPlanta, x, y, cellWidth, cellHeight);
+        noTint();
     }
-  }
+}
+}
+
+noTint();
 
   let scaleFactor = 0.9;
   for (let planta of plantasColocadas) {
