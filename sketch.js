@@ -20,10 +20,10 @@ let zombie;
 let numeroAleatorio;
 let imgActualSeguirCursor = null;
 let zombiesCreados = [];
-
 var periodoT = 5000;
 var registroT;
-
+let puntos = 900;
+let costosPlantas;
 
 function preload() {
   imgFondo = loadImage('assets/escenario.png');
@@ -54,6 +54,7 @@ function setup() {
   createCanvas(imgWidth, imgHeight, P2D, canvas);
   smooth();
   pixelDensity(1);
+  
   canvas_height = (canvas.clientWidth / width) * height
   canvas.style.setProperty('height', `${canvas_height}px`, 'important')
 
@@ -64,6 +65,18 @@ function setup() {
     "Mina": imgPlanta4,
     "Nuez": imgPlanta5
   }
+
+   costosPlantas = {
+    "Repetidora": 200,
+    "Girasol": 50,
+    "Lanzaguisante": 100,
+    "Mina": 25,
+    "Nuez": 50
+  };
+
+  
+
+  
 
   numeroAleatorio = Math.floor(Math.random() * 4);
   zombies = [zombieNormal, zombieCono, zombieCubo, zombieYeti];
@@ -100,6 +113,10 @@ function draw() {
   let cellWidth = gridWidth / 9;
   let cellHeight = gridHeight / 5;
 
+  fill(255);
+  textSize(13); 
+  text(puntos, 16, 24); 
+
   stroke(0);
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 5; j++) {
@@ -116,7 +133,7 @@ function draw() {
 }
 }
 
-noTint();
+        noTint();
 
   let scaleFactor = 0.9;
   for (let planta of plantasColocadas) {
@@ -157,17 +174,24 @@ function windowResized() {
 }
 
 function mouseClicked() {
-  if (mouseX >= 144 && mouseX <= 129 + 41 && mouseY >= 0 && mouseY <= 26) {
+  if (mouseX >= 129 && mouseX <= 129 + 41 && mouseY >= 0 && mouseY <= 26) {
     if (plantaSeleccionada === "Repetidora") {
       plantaSeleccionada = null;
       imgActualSeguirCursor = null;
     } else {
-      plantaSeleccionada = "Repetidora";
-      imgActualSeguirCursor = imgPlanta1;
+      if (puntos >= costosPlantas["Repetidora"]) {
+        plantaSeleccionada = "Repetidora";
+        puntos -= costosPlantas["Repetidora"];
+        imgActualSeguirCursor = imagenesDePlantas["Repetidora"];
+      } else {
+        console.log("No tienes suficientes puntos para colocar una Repetidora.");
+      }
     }
     plantaColocada = false;
-    console.log("Seleccionaste la planta Repetidora");
-  }
+    console.log("Puntos restantes: " + puntos);
+}
+
+  
 
 
   if (mouseX >= 39 && mouseX <= 39 + 29 && mouseY >= -2 && mouseY <= -2 + 27) {
@@ -175,48 +199,70 @@ function mouseClicked() {
       plantaSeleccionada = null;
       imgActualSeguirCursor = null;
     } else {
-      plantaSeleccionada = "Girasol";
-      imgActualSeguirCursor = imgPlanta2;
+      if (puntos >= costosPlantas["Girasol"]) {
+        plantaSeleccionada = "Girasol";
+        puntos -= costosPlantas["Girasol"];
+        imgActualSeguirCursor = imagenesDePlantas["Girasol"];
+      } else {
+        console.log("No tienes suficientes puntos para colocar un girasol.");
+      }
     }
     plantaColocada = false;
-    console.log("Seleccionaste la planta Girasol");
-  }
+    console.log("Puntos restantes: " + puntos);
+}
+
 
   if (mouseX >= 68 && mouseX <= 68 + 25 && mouseY >= -4 && mouseY <= -4 + 31) {
-    if (plantaSeleccionada === "Lanzaguisante") {
+    if (plantaSeleccionada === "Lanzaguizante") {
       plantaSeleccionada = null;
       imgActualSeguirCursor = null;
     } else {
-      plantaSeleccionada = "Lanzaguisante";
-      imgActualSeguirCursor = imgPlanta3;
+      if (puntos >= costosPlantas["Lanzaguisante"]) {
+        plantaSeleccionada = "Lanzaguisante";
+        puntos -= costosPlantas["Lanzaguisante"];
+        imgActualSeguirCursor = imagenesDePlantas["Lanzaguisante"];
+      } else {
+        console.log("No tienes suficientes puntos para colocar un Lanzaguisante.");
+      }
     }
     plantaColocada = false;
-    console.log("Seleccionaste la planta Lanzaguisante");
-  }
+    console.log("Puntos restantes: " + puntos);
+}
+
 
   if (mouseX >= 91 && mouseX <= 91 + 25 && mouseY >= -2 && mouseY <= -2 + 29) {
     if (plantaSeleccionada === "Mina") {
       plantaSeleccionada = null;
       imgActualSeguirCursor = null;
     } else {
-      plantaSeleccionada = "Mina";
-      imgActualSeguirCursor = imgPlanta4;
+      if (puntos >= costosPlantas["Mina"]) {
+        plantaSeleccionada = "Mina";
+        puntos -= costosPlantas["Mina"];
+        imgActualSeguirCursor = imagenesDePlantas["Mina"];
+      } else {
+        console.log("No tienes suficientes puntos para colocar una Mina.");
+      }
     }
     plantaColocada = false;
-    console.log("Seleccionaste la planta Mina");
-  }
+    console.log("Puntos restantes: " + puntos);
+}
 
   if (mouseX >= 116 && mouseX <= 116 + 25 && mouseY >= -8 && mouseY <= -8 + 32) {
     if (plantaSeleccionada === "Nuez") {
       plantaSeleccionada = null;
       imgActualSeguirCursor = null;
     } else {
-      plantaSeleccionada = "Nuez";
-      imgActualSeguirCursor = imgPlanta5;
+      if (puntos >= costosPlantas["Nuez"]) {
+        plantaSeleccionada = "Nuez";
+        puntos -= costosPlantas["Nuez"];
+        imgActualSeguirCursor = imagenesDePlantas["Nuez"];
+      } else {
+        console.log("No tienes suficientes puntos para colocar una Nuez.");
+      }
     }
     plantaColocada = false;
-    console.log("Seleccionaste la planta Nuez");
-  }
+    console.log("Puntos restantes: " + puntos);
+}
 
 
 
