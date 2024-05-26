@@ -247,3 +247,8 @@ function dibujarZombie() {
   let newZombie = new Zombie(zombies[numeroAleatorio], 0.06, 100)
   zombiesCreados.push(newZombie);
 }
+
+document.addEventListener("click", (e) => {
+  console.log('x: ' + e.clientX);
+  console.log('y: ' + e.clientY);
+});
