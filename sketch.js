@@ -115,6 +115,8 @@ function draw() {
 
   fill(255);
   textSize(13); 
+  stroke(0);
+  strokeWeight(3);
   text(puntos, 16, 24); 
 
   stroke(0);
@@ -123,7 +125,7 @@ function draw() {
       let x = gridStartX + i * cellWidth;
       let y = gridStartY + j * cellHeight;
       noFill();
-      rect(x, y, cellWidth, cellHeight);
+      //rect(x, y, cellWidth, cellHeight);
       if (plantaSeleccionada && mouseX > x && mouseX < x + cellWidth && mouseY > y && mouseY < y + cellHeight) {
         let imgPlanta = imagenesDePlantas[plantaSeleccionada];
         tint(255, 200);
@@ -181,7 +183,6 @@ function mouseClicked() {
     } else {
       if (puntos >= costosPlantas["Repetidora"]) {
         plantaSeleccionada = "Repetidora";
-        puntos -= costosPlantas["Repetidora"];
         imgActualSeguirCursor = imagenesDePlantas["Repetidora"];
       } else {
         console.log("No tienes suficientes puntos para colocar una Repetidora.");
@@ -201,7 +202,6 @@ function mouseClicked() {
     } else {
       if (puntos >= costosPlantas["Girasol"]) {
         plantaSeleccionada = "Girasol";
-        puntos -= costosPlantas["Girasol"];
         imgActualSeguirCursor = imagenesDePlantas["Girasol"];
       } else {
         console.log("No tienes suficientes puntos para colocar un girasol.");
@@ -219,7 +219,6 @@ function mouseClicked() {
     } else {
       if (puntos >= costosPlantas["Lanzaguisante"]) {
         plantaSeleccionada = "Lanzaguisante";
-        puntos -= costosPlantas["Lanzaguisante"];
         imgActualSeguirCursor = imagenesDePlantas["Lanzaguisante"];
       } else {
         console.log("No tienes suficientes puntos para colocar un Lanzaguisante.");
@@ -237,7 +236,6 @@ function mouseClicked() {
     } else {
       if (puntos >= costosPlantas["Mina"]) {
         plantaSeleccionada = "Mina";
-        puntos -= costosPlantas["Mina"];
         imgActualSeguirCursor = imagenesDePlantas["Mina"];
       } else {
         console.log("No tienes suficientes puntos para colocar una Mina.");
@@ -247,6 +245,7 @@ function mouseClicked() {
     console.log("Puntos restantes: " + puntos);
 }
 
+
   if (mouseX >= 116 && mouseX <= 116 + 25 && mouseY >= -8 && mouseY <= -8 + 32) {
     if (plantaSeleccionada === "Nuez") {
       plantaSeleccionada = null;
@@ -254,7 +253,6 @@ function mouseClicked() {
     } else {
       if (puntos >= costosPlantas["Nuez"]) {
         plantaSeleccionada = "Nuez";
-        puntos -= costosPlantas["Nuez"];
         imgActualSeguirCursor = imagenesDePlantas["Nuez"];
       } else {
         console.log("No tienes suficientes puntos para colocar una Nuez.");
@@ -280,23 +278,24 @@ function mouseClicked() {
 
   let celdaKey = `r${row}c${column}`;
 
-  if (plantaSeleccionada && !plantaColocada && !celdasOcupadas[celdaKey] &&
-    mouseX >= gridStartX && mouseX < gridStartX + gridWidth &&
-    mouseY >= gridStartY && mouseY < gridStartY + gridHeight) {
-    let imgPlanta = imagenesDePlantas[plantaSeleccionada];
-    if (imgPlanta) {
-      let x = gridStartX + column * cellWidth + (cellWidth - imgPlanta.width) / 2;
-      let y = gridStartY + row * cellHeight + (cellHeight - imgPlanta.height) / 2;
-      plantasColocadas.push({ img: imgPlanta, x: x, y: y });
-      celdasOcupadas[celdaKey] = true;
-      plantaColocada = true;
-      console.log(`Has colocado ${plantaSeleccionada} en la fila ${row}, columna ${column}`);
-      plantaSeleccionada = null;
-      imgActualSeguirCursor = null;  // Dejar de seguir al cursor después de colocar la planta
+  if (mouseX >= gridStartX && mouseX < gridStartX + gridWidth && mouseY >= gridStartY && mouseY < gridStartY + gridHeight) {
+    if (plantaSeleccionada && !celdasOcupadas[celdaKey]) {
+      if (puntos >= costosPlantas[plantaSeleccionada]) { // Verifica si tienes suficientes puntos
+        let x = gridStartX + column * cellWidth + (cellWidth - imagenesDePlantas[plantaSeleccionada].width) / 2;
+        let y = gridStartY + row * cellHeight + (cellHeight - imagenesDePlantas[plantaSeleccionada].height) / 2;
+        plantasColocadas.push({ img: imagenesDePlantas[plantaSeleccionada], x: x, y: y });
+        celdasOcupadas[celdaKey] = true;
+        puntos -= costosPlantas[plantaSeleccionada]; // Deduce los puntos aquí, después de confirmar la colocación
+        console.log(`Has colocado ${plantaSeleccionada} en la fila ${row}, columna ${column}. Puntos restantes: ${puntos}`);
+        plantaSeleccionada = null;
+        imgActualSeguirCursor = null; // Dejar de seguir al cursor después de colocar la planta
+        plantaColocada = true;
+      } else {
+        console.log("No tienes suficientes puntos para colocar esta planta.");
+      }
     }
-  }
 }
-
+}
 function dibujarZombie() {
   numeroAleatorio = Math.floor(Math.random() * 4);
   let newZombie = new Zombie(zombies[numeroAleatorio], 0.06, 100)
