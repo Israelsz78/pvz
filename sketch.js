@@ -99,6 +99,8 @@ function draw() {
   image(planta4, 91, -2, 25, 29);
   image(planta5, 116, -8, 25, 32);
 
+  
+
   image(plantaSeleccionada === "Repetidora" ? imgPlanta1Selected : planta1, 129, 0, 41, 26);
   image(plantaSeleccionada === "Girasol" ? imgPlanta2Selected : planta2, 39, -2, 29, 27);
   image(plantaSeleccionada === "Lanzaguisante" ? imgPlanta3Selected : planta3, 68, -4, 25, 31);
@@ -126,7 +128,10 @@ function draw() {
       let y = gridStartY + j * cellHeight;
       noFill();
       //rect(x, y, cellWidth, cellHeight);
-      if (plantaSeleccionada && mouseX > x && mouseX < x + cellWidth && mouseY > y && mouseY < y + cellHeight) {
+
+      let celdaKey = `r${j}c${i}`;
+      
+      if (plantaSeleccionada && mouseX > x && mouseX < x + cellWidth && mouseY > y && mouseY < y + cellHeight && !celdasOcupadas[celdaKey]) {
         let imgPlanta = imagenesDePlantas[plantaSeleccionada];
         tint(255, 200);
         image(imgPlanta, x, y, cellWidth, cellHeight);
