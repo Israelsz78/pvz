@@ -201,7 +201,7 @@ function draw() {
         if (sol.y < sol.finalY) {
           sol.y += 0.4;
         }
-          image(sol.img, sol.x, sol.y, cellWidth, cellHeight);
+          image(sol.img, sol.x, sol.y, sol.Width, sol.Height);
       }
   });
 
@@ -220,7 +220,7 @@ function draw() {
       }
      
       if (!sol.recolectado || sol.moviéndose) {
-        image(sol.img, sol.x, sol.y, cellWidth, cellHeight);
+        image(sol.img, sol.x, sol.y, sol.Width, sol.Height);
       }
       return true; 
     });
@@ -230,7 +230,7 @@ function generarSolAleatorio() {
   let column = Math.floor(Math.random() * 9);
   let row = Math.floor(Math.random() * 5);
   let x = gridStartX + column * cellWidth;
-  let finalY = gridStartY + row * cellHeight;
+  let finalY = gridStartY + row * cellHeight * 0.5;
   let initialY = -15;
 
   soles.push({
@@ -238,7 +238,9 @@ function generarSolAleatorio() {
       x: x,
       y: initialY,
       finalY: finalY,
-      recolectado: false
+      recolectado: false,
+      width: cellWidth * 0.3,  // Reducir tamaño del sol
+      height: cellHeight * 0.3
   });
 }
 
