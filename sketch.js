@@ -20,15 +20,15 @@ let zombie;
 let numeroAleatorio;
 let imgActualSeguirCursor = null;
 let zombiesCreados = [];
-var periodoT = 5000;
+var periodoT = 8000;
 var registroT;
 let puntos = 500;
 let costosPlantas;
 let spriteSheetSol;
 let sol;
-let soles = []; // Arreglo para guardar los soles
-let tiempoEntreSoles = 10000; // Tiempo en milisegundos para generar un nuevo sol
-let ultimoTiempoSol = 0; // Tiempo desde el último sol generado
+let soles = [];
+let tiempoEntreSoles = 3000;
+let ultimoTiempoSol = 0; 
 let gridStartX, gridStartY, gridWidth, gridHeight, cellWidth, cellHeight;
 
 
@@ -174,7 +174,7 @@ function draw() {
     image(planta.img, imgX, imgY, imgWidthScaled, imgHeightScaled);
   }
   if (imgActualSeguirCursor) {
-    image(imgActualSeguirCursor, mouseX - 10, mouseY - 9, 27, 33);  // Asumiendo un tamaño fijo que puedes ajustar
+    image(imgActualSeguirCursor, mouseX - 10, mouseY - 9, 27, 33);  
   }
 
 
@@ -199,11 +199,31 @@ function draw() {
     soles.forEach((sol, index) => {
       if (!sol.recolectado) {
         if (sol.y < sol.finalY) {
-          sol.y += 1;
+          sol.y += 0.4;
         }
           image(sol.img, sol.x, sol.y, cellWidth, cellHeight);
       }
   });
+
+
+    soles = soles.filter(sol => {
+      if (sol.moviéndose) {
+        let moveX = (sol.targetX - sol.x) * 0.1; 
+        let moveY = (sol.targetY - sol.y) * 0.1; 
+        sol.x += moveX;
+        sol.y += moveY;
+  
+        if (Math.abs(sol.x - sol.targetX) < 1 && Math.abs(sol.y - sol.targetY) < 1) {
+          puntos += 25;
+          return false; 
+        }
+      }
+     
+      if (!sol.recolectado || sol.moviéndose) {
+        image(sol.img, sol.x, sol.y, cellWidth, cellHeight);
+      }
+      return true; 
+    });
 }
 
 function generarSolAleatorio() {
@@ -333,15 +353,15 @@ function mouseClicked() {
 
   if (mouseX >= gridStartX && mouseX < gridStartX + gridWidth && mouseY >= gridStartY && mouseY < gridStartY + gridHeight) {
     if (plantaSeleccionada && !celdasOcupadas[celdaKey]) {
-      if (puntos >= costosPlantas[plantaSeleccionada]) { // Verifica si tienes suficientes puntos
+      if (puntos >= costosPlantas[plantaSeleccionada]) { 
         let x = gridStartX + column * cellWidth + (cellWidth - imagenesDePlantas[plantaSeleccionada].width) / 2;
         let y = gridStartY + row * cellHeight + (cellHeight - imagenesDePlantas[plantaSeleccionada].height) / 2;
         plantasColocadas.push({ img: imagenesDePlantas[plantaSeleccionada], x: x, y: y });
         celdasOcupadas[celdaKey] = true;
-        puntos -= costosPlantas[plantaSeleccionada]; // Deduce los puntos aquí, después de confirmar la colocación
+        puntos -= costosPlantas[plantaSeleccionada]; 
         console.log(`Has colocado ${plantaSeleccionada} en la fila ${row}, columna ${column}. Puntos restantes: ${puntos}`);
         plantaSeleccionada = null;
-        imgActualSeguirCursor = null; // Dejar de seguir al cursor después de colocar la planta
+        imgActualSeguirCursor = null; 
         plantaColocada = true;
       } else {
         console.log("No tienes suficientes puntos para colocar esta planta.");
@@ -362,11 +382,14 @@ document.addEventListener("click", (e) => {
 
 function mouseMoved() {
   soles.forEach(sol => {
-      if (mouseX >= sol.x && mouseX <= sol.x + cellWidth &&
-          mouseY >= sol.y && mouseY <= sol.y + cellHeight &&
-          !sol.recolectado) {
-          sol.recolectado = true;
-          puntos += 25; // Suponiendo que cada sol otorga 25 puntos
-      }
+    if (mouseX >= sol.x && mouseX <= sol.x + cellWidth &&
+        mouseY >= sol.y && mouseY <= sol.y + cellHeight && !sol.recolectado) {
+      sol.recolectado = true;
+      sol.moviéndose = true;
+      sol.targetX = 19; 
+      sol.targetY = -1;
+    }
   });
 }
+
+
