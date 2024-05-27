@@ -22,8 +22,15 @@ let imgActualSeguirCursor = null;
 let zombiesCreados = [];
 var periodoT = 5000;
 var registroT;
-let puntos = 900;
+let puntos = 500;
 let costosPlantas;
+let spriteSheetSol;
+let sol;
+let soles = []; // Arreglo para guardar los soles
+let tiempoEntreSoles = 10000; // Tiempo en milisegundos para generar un nuevo sol
+let ultimoTiempoSol = 0; // Tiempo desde el último sol generado
+let gridStartX, gridStartY, gridWidth, gridHeight, cellWidth, cellHeight;
+
 
 function preload() {
   imgFondo = loadImage('assets/escenario.png');
@@ -47,6 +54,7 @@ function preload() {
   zombieCono = loadImage('assets/zombieCono.png');
   zombieCubo = loadImage('assets/zombieCubo.png');
   zombieYeti = loadImage('assets/zombieYeti.png');
+  spriteSheetSol = loadImage('assets/sol.png');
 
 }
 
@@ -57,6 +65,9 @@ function setup() {
   
   canvas_height = (canvas.clientWidth / width) * height
   canvas.style.setProperty('height', `${canvas_height}px`, 'important')
+
+  sol = spriteSheetSol.get(0,0,26,26);
+
 
   imagenesDePlantas = {
     "Repetidora": imgPlanta1,
@@ -84,6 +95,13 @@ function setup() {
 
   cBack = color(255);
   registroT = millis();
+
+   gridStartX = imgWidth * 0.03;
+   gridStartY = imgHeight * 0.13;
+   gridWidth = imgWidth * 0.91;
+   gridHeight = imgHeight * 0.83;
+   cellWidth = gridWidth / 9;
+   cellHeight = gridHeight / 5;
 };
 
 function draw() {
@@ -92,6 +110,7 @@ function draw() {
   let centerY = 0;
   image(imgFondo, centerX, centerY);
 
+  
   image(imgSol, 19, -1, 17, 17);
   image(planta1, 129, 0, 41, 26);
   image(planta2, 39, -2, 29, 27);
@@ -111,7 +130,6 @@ function draw() {
   let gridStartY = imgHeight * 0.13;
   let gridWidth = imgWidth * 0.91;
   let gridHeight = imgHeight * 0.83;
-
   let cellWidth = gridWidth / 9;
   let cellHeight = gridHeight / 5;
 
@@ -130,7 +148,7 @@ function draw() {
       //rect(x, y, cellWidth, cellHeight);
 
       let celdaKey = `r${j}c${i}`;
-      
+
       if (plantaSeleccionada && mouseX > x && mouseX < x + cellWidth && mouseY > y && mouseY < y + cellHeight && !celdasOcupadas[celdaKey]) {
         let imgPlanta = imagenesDePlantas[plantaSeleccionada];
         tint(255, 200);
@@ -170,9 +188,39 @@ function draw() {
 
   zombiesCreados.forEach((zombie) => {
     zombie.mover();
-  })
+  });
+
+  let tiempoActual = millis();
+    if (tiempoActual - ultimoTiempoSol > tiempoEntreSoles) {
+        generarSolAleatorio();
+        ultimoTiempoSol = tiempoActual;
+    }
+
+    soles.forEach((sol, index) => {
+      if (!sol.recolectado) {
+        if (sol.y < sol.finalY) {
+          sol.y += 1;
+        }
+          image(sol.img, sol.x, sol.y, cellWidth, cellHeight);
+      }
+  });
 }
 
+function generarSolAleatorio() {
+  let column = Math.floor(Math.random() * 9);
+  let row = Math.floor(Math.random() * 5);
+  let x = gridStartX + column * cellWidth;
+  let finalY = gridStartY + row * cellHeight;
+  let initialY = -15;
+
+  soles.push({
+      img: sol,
+      x: x,
+      y: initialY,
+      finalY: finalY,
+      recolectado: false
+  });
+}
 
 function windowResized() {
   canvas.style.removeProperty("height")
@@ -311,3 +359,14 @@ document.addEventListener("click", (e) => {
   console.log('x: ' + e.clientX);
   console.log('y: ' + e.clientY);
 });
+
+function mouseMoved() {
+  soles.forEach(sol => {
+      if (mouseX >= sol.x && mouseX <= sol.x + cellWidth &&
+          mouseY >= sol.y && mouseY <= sol.y + cellHeight &&
+          !sol.recolectado) {
+          sol.recolectado = true;
+          puntos += 25; // Suponiendo que cada sol otorga 25 puntos
+      }
+  });
+}
