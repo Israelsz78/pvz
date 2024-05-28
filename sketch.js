@@ -29,6 +29,9 @@ let soles = [];
 let tiempoEntreSoles = 3000;
 let ultimoTiempoSol = 0;
 let gridStartX, gridStartY, gridWidth, gridHeight, cellWidth, cellHeight;
+let spriteSheetGirasol;
+let girasolBrillando;
+let spriteSheetGirasolNormal;
 
 
 function preload() {
@@ -39,7 +42,7 @@ function preload() {
   planta4 = loadImage('assets/iconoMina.png');
   planta5 = loadImage('assets/iconoNuez.png');
   imgPlanta1 = loadImage('assets/plantaEnojada.png');
-  imgPlanta2 = loadImage('assets/plantaGirasol.png');
+  spriteSheetGirasolNormal = loadImage('assets/Girasolbrillando.png');
   imgPlanta3 = loadImage('assets/plantaLanzaguisante.png');
   imgPlanta4 = loadImage('assets/plantaMina.png');
   imgPlanta5 = loadImage('assets/plantaNuez.png');
@@ -54,7 +57,9 @@ function preload() {
   zombieCubo = loadImage('assets/zombieCubo.png');
   zombieYeti = loadImage('assets/zombieYeti.png');
   spriteSheetSol = loadImage('assets/sol.png');
-
+  spriteSheetGirasol = loadImage('assets/Girasolbrillando.png')
+    
+    
 }
 
 function setup() {
@@ -66,6 +71,9 @@ function setup() {
   canvas.style.setProperty('height', `${canvas_height}px`, 'important')
 
   sol = spriteSheetSol.get(0, 0, 26, 26);
+  girasolBrillando = spriteSheetGirasol.get(365, 158, 87, 95);
+  imgPlanta2 = spriteSheetGirasolNormal.get(28,57,89,91)
+  
 
 
   imagenesDePlantas = {
@@ -99,6 +107,8 @@ function draw() {
   background(255);
   let centerX = 0;
   let centerY = 0;
+
+  
   image(imgFondo, centerX, centerY);
 
 
@@ -251,6 +261,10 @@ function windowResized() {
 function mouseClicked() {
   if (mouseX >= 129 && mouseX <= 129 + 41 && mouseY >= 0 && mouseY <= 26) {
     if (plantaSeleccionada === "Repetidora") {
+      if (!girasolBrillando) {
+        console.error("girasolBrillando aún no está disponible");
+        return; // detiene la función si girasolBrillando no está disponible
+    }
       plantaSeleccionada = null;
       imgActualSeguirCursor = null;
     } else {
@@ -270,8 +284,9 @@ function mouseClicked() {
 
   if (mouseX >= 39 && mouseX <= 39 + 29 && mouseY >= -2 && mouseY <= -2 + 27) {
     if (plantaSeleccionada === "Girasol") {
-      let girasol = new Girasol(x, y, imgPlanta2); // Utiliza la imagen de girasol
-    plantasColocadas.push(girasol);
+      let girasol = new Girasol(x, y, imgPlanta2, girasolBrillando);
+      console.log("Girasol creado con image active:", girasol.imgActive ? "Sí" : "No"); // Utiliza la imagen de girasol
+      plantasColocadas.push(girasol);
       plantaSeleccionada = null;
       imgActualSeguirCursor = null;
     } else {
@@ -361,7 +376,7 @@ function mouseClicked() {
         let planta;
         switch (plantaSeleccionada) {
             case "Girasol":
-                planta = new Girasol(x, y, imgPlanta2);
+                planta = new Girasol(x, y, imgPlanta2, girasolBrillando);
                 break;
             case "Repetidora":
                 planta = new Repetidora(x, y, imgPlanta1);
