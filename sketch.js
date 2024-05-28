@@ -32,7 +32,10 @@ let gridStartX, gridStartY, gridWidth, gridHeight, cellWidth, cellHeight;
 let spriteSheetGirasol;
 let girasolBrillando;
 let spriteSheetGirasolNormal;
-
+let spriteSheetRepetidora;
+let spriteSheetNuez;
+let spriteSheetLanzaguisante;
+let spriteSheetMina;
 
 function preload() {
   imgFondo = loadImage('assets/escenario.png');
@@ -41,11 +44,11 @@ function preload() {
   planta3 = loadImage('assets/iconoLanzaguisante.png');
   planta4 = loadImage('assets/iconoMina.png');
   planta5 = loadImage('assets/iconoNuez.png');
-  imgPlanta1 = loadImage('assets/plantaEnojada.png');
+  spriteSheetRepetidora = loadImage('assets/Repetidora.png');
   spriteSheetGirasolNormal = loadImage('assets/Girasolbrillando.png');
-  imgPlanta3 = loadImage('assets/plantaLanzaguisante.png');
-  imgPlanta4 = loadImage('assets/plantaMina.png');
-  imgPlanta5 = loadImage('assets/plantaNuez.png');
+  spriteSheetLanzaguisante = loadImage('assets/Lanzaguisante.png');
+  spriteSheetMina = loadImage('assets/Mina.png');
+  spriteSheetNuez = loadImage('assets/Nuez.png');
   imgPlanta1Selected = loadImage('assets/iconoEnojadaSelected.png');
   imgPlanta2Selected = loadImage('assets/iconoGirasolSelected.png');
   imgPlanta3Selected = loadImage('assets/iconoLanzaguisantesSelected.png');
@@ -73,7 +76,10 @@ function setup() {
   sol = spriteSheetSol.get(0, 0, 26, 26);
   girasolBrillando = spriteSheetGirasol.get(365, 158, 87, 95);
   imgPlanta2 = spriteSheetGirasolNormal.get(28,57,89,91)
-  
+  imgPlanta1 = spriteSheetRepetidora.get(3,2,28,31);
+  imgPlanta5 = spriteSheetNuez.get(0,33,28,31);
+  imgPlanta3 = spriteSheetLanzaguisante.get(0,1,27,31);
+  imgPlanta4 = spriteSheetMina.get(123,2,28,24);
 
 
   imagenesDePlantas = {
