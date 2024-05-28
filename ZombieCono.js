@@ -15,23 +15,23 @@ class ZombieCono {
         switch (this.numeroFila) {
             case 0:
                 this.y = 0;
-                console.log('fila 1');
+                
                 break;
             case 1:
                 this.y = 25;
-                console.log('fila 2');
+                
                 break;
             case 2:
                 this.y = 55;
-                console.log('fila 3');
+                
                 break;
             case 3:
                 this.y = 80;
-                console.log('fila 4');
+                
                 break;
             case 4:
                 this.y = 120;
-                console.log('fila 5');
+                
                 break;
         }
 
