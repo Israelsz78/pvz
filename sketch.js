@@ -15,7 +15,6 @@ let plantaColocada = false;
 let imgPlanta1Selected, imgPlanta2Selected, imgPlanta3Selected, imgPlanta4Selected, imgPlanta5Selected;
 let imgSol;
 let zombieNormal, zombieCono, zombieCubo, zombieYeti;
-let zombies = [];
 let zombie;
 let numeroAleatorio;
 let imgActualSeguirCursor = null;
@@ -28,7 +27,7 @@ let spriteSheetSol;
 let sol;
 let soles = [];
 let tiempoEntreSoles = 3000;
-let ultimoTiempoSol = 0; 
+let ultimoTiempoSol = 0;
 let gridStartX, gridStartY, gridWidth, gridHeight, cellWidth, cellHeight;
 
 
@@ -62,11 +61,11 @@ function setup() {
   createCanvas(imgWidth, imgHeight, P2D, canvas);
   smooth();
   pixelDensity(1);
-  
+
   canvas_height = (canvas.clientWidth / width) * height
   canvas.style.setProperty('height', `${canvas_height}px`, 'important')
 
-  sol = spriteSheetSol.get(0,0,26,26);
+  sol = spriteSheetSol.get(0, 0, 26, 26);
 
 
   imagenesDePlantas = {
@@ -77,7 +76,7 @@ function setup() {
     "Nuez": imgPlanta5
   }
 
-   costosPlantas = {
+  costosPlantas = {
     "Repetidora": 200,
     "Girasol": 50,
     "Lanzaguisante": 100,
@@ -85,23 +84,15 @@ function setup() {
     "Nuez": 50
   };
 
-  
-
-  
-
-  numeroAleatorio = Math.floor(Math.random() * 4);
-  zombies = [zombieNormal, zombieCono, zombieCubo, zombieYeti];
-  zombie = new Zombie(zombies[numeroAleatorio], 0.06, 100);
-
   cBack = color(255);
   registroT = millis();
 
-   gridStartX = imgWidth * 0.03;
-   gridStartY = imgHeight * 0.13;
-   gridWidth = imgWidth * 0.91;
-   gridHeight = imgHeight * 0.83;
-   cellWidth = gridWidth / 9;
-   cellHeight = gridHeight / 5;
+  gridStartX = imgWidth * 0.03;
+  gridStartY = imgHeight * 0.13;
+  gridWidth = imgWidth * 0.91;
+  gridHeight = imgHeight * 0.83;
+  cellWidth = gridWidth / 9;
+  cellHeight = gridHeight / 5;
 };
 
 function draw() {
@@ -110,7 +101,7 @@ function draw() {
   let centerY = 0;
   image(imgFondo, centerX, centerY);
 
-  
+
   image(imgSol, 19, -1, 17, 17);
   image(planta1, 129, 0, 41, 26);
   image(planta2, 39, -2, 29, 27);
@@ -118,7 +109,7 @@ function draw() {
   image(planta4, 91, -2, 25, 29);
   image(planta5, 116, -8, 25, 32);
 
-  
+
 
   image(plantaSeleccionada === "Repetidora" ? imgPlanta1Selected : planta1, 129, 0, 41, 26);
   image(plantaSeleccionada === "Girasol" ? imgPlanta2Selected : planta2, 39, -2, 29, 27);
@@ -134,10 +125,10 @@ function draw() {
   let cellHeight = gridHeight / 5;
 
   fill(255);
-  textSize(13); 
+  textSize(13);
   stroke(0);
   strokeWeight(3);
-  text(puntos, 16, 24); 
+  text(puntos, 16, 24);
 
   stroke(0);
   for (let i = 0; i < 9; i++) {
@@ -154,11 +145,11 @@ function draw() {
         tint(255, 200);
         image(imgPlanta, x, y, cellWidth, cellHeight);
         noTint();
+      }
     }
-}
-}
+  }
 
-        noTint();
+  noTint();
 
   let scaleFactor = 0.9;
   for (let planta of plantasColocadas) {
@@ -174,11 +165,10 @@ function draw() {
     image(planta.img, imgX, imgY, imgWidthScaled, imgHeightScaled);
   }
   if (imgActualSeguirCursor) {
-    image(imgActualSeguirCursor, mouseX - 10, mouseY - 9, 27, 33);  
+    image(imgActualSeguirCursor, mouseX - 10, mouseY - 9, 27, 33);
   }
 
 
-  zombie.mover();
   var tAct = millis();
   var difT = tAct - registroT;
   if (difT >= periodoT) {
@@ -191,39 +181,39 @@ function draw() {
   });
 
   let tiempoActual = millis();
-    if (tiempoActual - ultimoTiempoSol > tiempoEntreSoles) {
-        generarSolAleatorio();
-        ultimoTiempoSol = tiempoActual;
-    }
+  if (tiempoActual - ultimoTiempoSol > tiempoEntreSoles) {
+    generarSolAleatorio();
+    ultimoTiempoSol = tiempoActual;
+  }
 
-    soles.forEach((sol, index) => {
-      if (!sol.recolectado) {
-        if (sol.y < sol.finalY) {
-          sol.y += 0.4;
-        }
-          image(sol.img, sol.x, sol.y, sol.Width, sol.Height);
+  soles.forEach((sol, index) => {
+    if (!sol.recolectado) {
+      if (sol.y < sol.finalY) {
+        sol.y += 0.4;
       }
+      image(sol.img, sol.x, sol.y, sol.Width, sol.Height);
+    }
   });
 
 
-    soles = soles.filter(sol => {
-      if (sol.moviéndose) {
-        let moveX = (sol.targetX - sol.x) * 0.1; 
-        let moveY = (sol.targetY - sol.y) * 0.1; 
-        sol.x += moveX;
-        sol.y += moveY;
-  
-        if (Math.abs(sol.x - sol.targetX) < 1 && Math.abs(sol.y - sol.targetY) < 1) {
-          puntos += 25;
-          return false; 
-        }
+  soles = soles.filter(sol => {
+    if (sol.moviéndose) {
+      let moveX = (sol.targetX - sol.x) * 0.1;
+      let moveY = (sol.targetY - sol.y) * 0.1;
+      sol.x += moveX;
+      sol.y += moveY;
+
+      if (Math.abs(sol.x - sol.targetX) < 1 && Math.abs(sol.y - sol.targetY) < 1) {
+        puntos += 25;
+        return false;
       }
-     
-      if (!sol.recolectado || sol.moviéndose) {
-        image(sol.img, sol.x, sol.y, sol.Width, sol.Height);
-      }
-      return true; 
-    });
+    }
+
+    if (!sol.recolectado || sol.moviéndose) {
+      image(sol.img, sol.x, sol.y, sol.Width, sol.Height);
+    }
+    return true;
+  });
 }
 
 function generarSolAleatorio() {
@@ -234,13 +224,13 @@ function generarSolAleatorio() {
   let initialY = -15;
 
   soles.push({
-      img: sol,
-      x: x,
-      y: initialY,
-      finalY: finalY,
-      recolectado: false,
-      width: cellWidth * 0.3,  // Reducir tamaño del sol
-      height: cellHeight * 0.3
+    img: sol,
+    x: x,
+    y: initialY,
+    finalY: finalY,
+    recolectado: false,
+    width: cellWidth * 0.3,  // Reducir tamaño del sol
+    height: cellHeight * 0.3
   });
 }
 
@@ -265,9 +255,9 @@ function mouseClicked() {
     }
     plantaColocada = false;
     console.log("Puntos restantes: " + puntos);
-}
+  }
 
-  
+
 
 
   if (mouseX >= 39 && mouseX <= 39 + 29 && mouseY >= -2 && mouseY <= -2 + 27) {
@@ -284,7 +274,7 @@ function mouseClicked() {
     }
     plantaColocada = false;
     console.log("Puntos restantes: " + puntos);
-}
+  }
 
 
   if (mouseX >= 68 && mouseX <= 68 + 25 && mouseY >= -4 && mouseY <= -4 + 31) {
@@ -301,7 +291,7 @@ function mouseClicked() {
     }
     plantaColocada = false;
     console.log("Puntos restantes: " + puntos);
-}
+  }
 
 
   if (mouseX >= 91 && mouseX <= 91 + 25 && mouseY >= -2 && mouseY <= -2 + 29) {
@@ -318,7 +308,7 @@ function mouseClicked() {
     }
     plantaColocada = false;
     console.log("Puntos restantes: " + puntos);
-}
+  }
 
 
   if (mouseX >= 116 && mouseX <= 116 + 25 && mouseY >= -8 && mouseY <= -8 + 32) {
@@ -335,7 +325,7 @@ function mouseClicked() {
     }
     plantaColocada = false;
     console.log("Puntos restantes: " + puntos);
-}
+  }
 
 
 
@@ -355,25 +345,39 @@ function mouseClicked() {
 
   if (mouseX >= gridStartX && mouseX < gridStartX + gridWidth && mouseY >= gridStartY && mouseY < gridStartY + gridHeight) {
     if (plantaSeleccionada && !celdasOcupadas[celdaKey]) {
-      if (puntos >= costosPlantas[plantaSeleccionada]) { 
+      if (puntos >= costosPlantas[plantaSeleccionada]) {
         let x = gridStartX + column * cellWidth + (cellWidth - imagenesDePlantas[plantaSeleccionada].width) / 2;
         let y = gridStartY + row * cellHeight + (cellHeight - imagenesDePlantas[plantaSeleccionada].height) / 2;
         plantasColocadas.push({ img: imagenesDePlantas[plantaSeleccionada], x: x, y: y });
         celdasOcupadas[celdaKey] = true;
-        puntos -= costosPlantas[plantaSeleccionada]; 
+        puntos -= costosPlantas[plantaSeleccionada];
         console.log(`Has colocado ${plantaSeleccionada} en la fila ${row}, columna ${column}. Puntos restantes: ${puntos}`);
         plantaSeleccionada = null;
-        imgActualSeguirCursor = null; 
+        imgActualSeguirCursor = null;
         plantaColocada = true;
       } else {
         console.log("No tienes suficientes puntos para colocar esta planta.");
       }
     }
-}
+  }
 }
 function dibujarZombie() {
   numeroAleatorio = Math.floor(Math.random() * 4);
-  let newZombie = new Zombie(zombies[numeroAleatorio], 0.06, 100)
+  let newZombie;
+  switch (numeroAleatorio) {
+    case 0:
+      newZombie = new ZombieNormal(zombieNormal, 0.06, 100);
+      break;
+    case 1:
+      newZombie = new ZombieCono(zombieCono, 0.06, 100);
+      break;
+    case 2:
+      newZombie = new ZombieCubo(zombieCubo, 0.06, 100);
+      break;
+    case 3:
+      newZombie = new ZombieYeti(zombieYeti, 0.06, 100);
+      break;
+  }
   zombiesCreados.push(newZombie);
 }
 
@@ -385,10 +389,10 @@ document.addEventListener("click", (e) => {
 function mouseMoved() {
   soles.forEach(sol => {
     if (mouseX >= sol.x && mouseX <= sol.x + cellWidth &&
-        mouseY >= sol.y && mouseY <= sol.y + cellHeight && !sol.recolectado) {
+      mouseY >= sol.y && mouseY <= sol.y + cellHeight && !sol.recolectado) {
       sol.recolectado = true;
       sol.moviéndose = true;
-      sol.targetX = 19; 
+      sol.targetX = 19;
       sol.targetY = -1;
     }
   });
