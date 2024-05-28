@@ -14,24 +14,23 @@ class ZombieYeti {
         manipulando la variable "y" del zombie*/
         switch (this.numeroFila) {
             case 0:
-                this.y = 0;
-                
+                this.y = -14;
+
                 break;
             case 1:
-                this.y = 25;
-                
+                this.y = 55;
+
                 break;
             case 2:
-                this.y = 55;
-                
+                this.y = 75;
+
                 break;
             case 3:
-                this.y = 80;
-                
+                this.y = 88;
+
                 break;
             case 4:
-                this.y = 120;
-                
+                this.y = 111;
                 break;
         }
 
