@@ -14,7 +14,7 @@ let celdasOcupadas = {};
 let plantaColocada = false;
 let imgPlanta1Selected, imgPlanta2Selected, imgPlanta3Selected, imgPlanta4Selected, imgPlanta5Selected;
 let imgSol;
-let zombieNormal, zombieCono, zombieCubo, zombieYeti;
+let zombieNormal, zombieCono, zombieCubo, zombieYeti, zombieBandera;
 let zombie;
 let numeroAleatorio;
 let imgActualSeguirCursor = null;
@@ -36,6 +36,12 @@ let spriteSheetRepetidora;
 let spriteSheetNuez;
 let spriteSheetLanzaguisante;
 let spriteSheetMina;
+let spriteSheetZombieNormal;
+let spriteSheetZombieCubo;
+let spriteSheetZombieCono;
+let spriteSheetZombieYeti;
+let spriteSheetZombieBandera;
+
 
 function preload() {
   imgFondo = loadImage('assets/escenario.png');
@@ -55,12 +61,13 @@ function preload() {
   imgPlanta4Selected = loadImage('assets/iconoMinaSelected.png');
   imgPlanta5Selected = loadImage('assets/iconoNuezSelected.png');
   imgSol = loadImage('assets/iconoSol.png');
-  zombieNormal = loadImage('assets/zombieNormal.png');
-  zombieCono = loadImage('assets/zombieCono.png');
-  zombieCubo = loadImage('assets/zombieCubo.png');
-  zombieYeti = loadImage('assets/zombieYeti.png');
+  spriteSheetZombieNormal = loadImage('assets/zombienormal.png');
+  spriteSheetZombieCono = loadImage('assets/zombiecaracono.png');
+  spriteSheetZombieCubo = loadImage('assets/zombiecaracubo.png');
+  spriteSheetZombieYeti = loadImage('assets/zombieyeti.png');
   spriteSheetSol = loadImage('assets/sol.png');
-  spriteSheetGirasol = loadImage('assets/Girasolbrillando.png')
+  spriteSheetGirasol = loadImage('assets/Girasolbrillando.png');
+  spriteSheetZombieBandera = loadImage('assets/zombiebandera.png');
     
     
 }
@@ -80,6 +87,11 @@ function setup() {
   imgPlanta5 = spriteSheetNuez.get(0,33,28,31);
   imgPlanta3 = spriteSheetLanzaguisante.get(0,1,27,31);
   imgPlanta4 = spriteSheetMina.get(123,2,28,24);
+  zombieNormal = spriteSheetZombieNormal.get(4,12,27,44);
+  zombieCubo = spriteSheetZombieCubo.get(4,6,29,50);
+  zombieCono = spriteSheetZombieCono.get(4,2,27,54);
+  zombieYeti = spriteSheetZombieYeti.get(103,2,40,65);
+  zombieBandera = spriteSheetZombieBandera.get(2,4,37,52);
 
 
   imagenesDePlantas = {
