@@ -41,6 +41,7 @@ let spriteSheetZombieCubo;
 let spriteSheetZombieCono;
 let spriteSheetZombieYeti;
 let spriteSheetZombieBandera;
+let girasol;
 
 
 function preload() {
@@ -277,12 +278,9 @@ function windowResized() {
 }
 
 function mouseClicked() {
-  if (mouseX >= 129 && mouseX <= 129 + 41 && mouseY >= 0 && mouseY <= 26) {
+  console.log("Mouse X:", mouseX, "Mouse Y:", mouseY);
+  if (mouseX >= 143 && mouseX <= 168 && mouseY >= 0 && mouseY <= 23) {
     if (plantaSeleccionada === "Repetidora") {
-      if (!girasolBrillando) {
-        console.error("girasolBrillando aún no está disponible");
-        return; // detiene la función si girasolBrillando no está disponible
-    }
       plantaSeleccionada = null;
       imgActualSeguirCursor = null;
     } else {
@@ -295,16 +293,14 @@ function mouseClicked() {
     }
     plantaColocada = false;
     console.log("Puntos restantes: " + puntos);
+    
   }
 
 
 
 
-  if (mouseX >= 39 && mouseX <= 39 + 29 && mouseY >= -2 && mouseY <= -2 + 27) {
+  if (mouseX >= 43 && mouseX <= 43 + 24 && mouseY >= 0 && mouseY <= 23) {
     if (plantaSeleccionada === "Girasol") {
-      let girasol = new Girasol(x, y, imgPlanta2, girasolBrillando);
-      console.log("Girasol creado con image active:", girasol.imgActive ? "Sí" : "No"); // Utiliza la imagen de girasol
-      plantasColocadas.push(girasol);
       plantaSeleccionada = null;
       imgActualSeguirCursor = null;
     } else {
@@ -317,11 +313,12 @@ function mouseClicked() {
     }
     plantaColocada = false;
     console.log("Puntos restantes: " + puntos);
+    return;
   }
 
 
-  if (mouseX >= 68 && mouseX <= 68 + 25 && mouseY >= -4 && mouseY <= -4 + 31) {
-    if (plantaSeleccionada === "Lanzaguizante") {
+  if (mouseX >= 68 && mouseX <= 93 && mouseY >= 0 && mouseY <= 23) {
+    if (plantaSeleccionada === "Lanzaguisante") {
       plantaSeleccionada = null;
       imgActualSeguirCursor = null;
     } else {
@@ -334,10 +331,11 @@ function mouseClicked() {
     }
     plantaColocada = false;
     console.log("Puntos restantes: " + puntos);
+    
   }
 
 
-  if (mouseX >= 91 && mouseX <= 91 + 25 && mouseY >= -2 && mouseY <= -2 + 29) {
+  if (mouseX >= 94 && mouseX <= 115 && mouseY >= -2 && mouseY <= 23) {
     if (plantaSeleccionada === "Mina") {
       plantaSeleccionada = null;
       imgActualSeguirCursor = null;
@@ -354,7 +352,7 @@ function mouseClicked() {
   }
 
 
-  if (mouseX >= 116 && mouseX <= 116 + 25 && mouseY >= -8 && mouseY <= -8 + 32) {
+  if (mouseX >= 116 && mouseX <= 140 && mouseY >= -8 && mouseY <= 23) {
     if (plantaSeleccionada === "Nuez") {
       plantaSeleccionada = null;
       imgActualSeguirCursor = null;
@@ -391,7 +389,7 @@ function mouseClicked() {
         let x = gridStartX + column * cellWidth;
         let y = gridStartY + row * cellHeight;
 
-        let planta;
+        let planta = null;
         switch (plantaSeleccionada) {
             case "Girasol":
                 planta = new Girasol(x, y, imgPlanta2, girasolBrillando);
@@ -457,5 +455,3 @@ function mouseMoved() {
     }
   });
 }
-
-
