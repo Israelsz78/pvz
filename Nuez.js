@@ -3,11 +3,15 @@ class Nuez {
         this.x = x;
         this.y = y;
         this.img = img;
-        this.health = 100; // Suponiendo que la Nuez tiene una cantidad de salud
+        this.attackInterval = 1000; // Cada segundo
+        this.lastAttackTime = millis();
+        this.isVisible = true;
     }
 
     draw() {
-        image(this.img, this.x, this.y, cellWidth, cellHeight);
+        if (this.isVisible) {
+            image(this.img, this.x, this.y, cellWidth, cellHeight);
+        }
     }
 
     update() {

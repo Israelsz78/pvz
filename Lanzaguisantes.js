@@ -5,10 +5,13 @@ class Lanzaguisantes {
         this.img = img;
         this.attackInterval = 1000; // Cada segundo
         this.lastAttackTime = millis();
+        this.isVisible = true;
     }
 
     draw() {
-        image(this.img, this.x, this.y, cellWidth, cellHeight);
+        if (this.isVisible) {
+            image(this.img, this.x, this.y, cellWidth, cellHeight);
+        }
     }
 
     update() {
@@ -21,10 +24,6 @@ class Lanzaguisantes {
             this.shoot();
             this.lastAttackTime = currentTime;
         }
-    }
-
-    hidePlant() {
-
     }
 
     shoot() {

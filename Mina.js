@@ -3,11 +3,15 @@ class Mina {
         this.x = x;
         this.y = y;
         this.img = img;
-        this.triggered = false;  // Puedes dejar esta propiedad si planeas usarla en el futuro
+        this.attackInterval = 1000; // Cada segundo
+        this.lastAttackTime = millis();
+        this.isVisible = true;
     }
 
     draw() {
-        image(this.img, this.x, this.y, cellWidth, cellHeight);
+        if (this.isVisible) {
+            image(this.img, this.x, this.y, cellWidth, cellHeight);
+        }
     }
 
     update() {

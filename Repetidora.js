@@ -3,12 +3,15 @@ class Repetidora {
         this.x = x;
         this.y = y;
         this.img = img;
-        this.lastShootTime = millis();
-        this.shootInterval = 500; // dispara cada 0.5 segundos
+        this.attackInterval = 1000; // Cada segundo
+        this.lastAttackTime = millis();
+        this.isVisible = true;
     }
 
     draw() {
-        image(this.img, this.x, this.y, cellWidth, cellHeight);
+        if (this.isVisible) {
+            image(this.img, this.x, this.y, cellWidth, cellHeight);
+        }
     }
 
     update() {

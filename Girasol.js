@@ -9,11 +9,11 @@ class Girasol {
         this.produceSolInterval = 24000;
         this.activeDuration = 500;
         this.lastActiveTime = 0;
-        
+        this.isVisible = true;
     }
 
     draw() {
-        if (this.currentImage) {
+        if (this.currentImage && this.isVisible) {
             image(this.currentImage, this.x, this.y, cellWidth, cellHeight);
         } else {
             console.log("no currentImage to draw");

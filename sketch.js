@@ -187,8 +187,8 @@ function draw() {
     let imgX = planta.x + (cellWidth - imgWidthScaled) / 2;
     let imgY = planta.y + (cellHeight - imgHeightScaled) / 2;
 
-
-    image(planta.img, imgX, imgY, imgWidthScaled, imgHeightScaled);
+    //comenté esta linea para que desapareciera la plata cuando el zombie lo tocara
+    //image(planta.img, imgX, imgY, imgWidthScaled, imgHeightScaled);
   }
   if (imgActualSeguirCursor) {
     image(imgActualSeguirCursor, mouseX - 10, mouseY - 9, 27, 33);
@@ -259,10 +259,12 @@ function draw() {
   for (let zombie of zombiesCreados) {
     for (let planta of plantasColocadas) {
       if (zombie.x <= planta.x + 10) {
-        console.log('toca la planta')
+        quitarPlanta(planta);
       }
     }
   }
+
+  console.log(plantasColocadas)
 
 }
 
@@ -469,4 +471,10 @@ function mouseMoved() {
       sol.targetY = -1;
     }
   });
+}
+
+function quitarPlanta(planta) {
+  planta.isVisible = false;
+  let IndexPlantRemove = plantasColocadas.findIndex(plant => plant === planta);
+  plantasColocadas.splice(IndexPlantRemove, 1);
 }

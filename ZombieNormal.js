@@ -6,6 +6,7 @@ class ZombieNormal {
     this.salud = salud;
     this.imagen = imagen;
     this.numeroFila = Math.floor(Math.random() * 5);
+    this.golpes = 0;
   }
 
   mover() {
@@ -30,12 +31,13 @@ class ZombieNormal {
         break;
     }
 
-    this.x -= this.velocidad
+    this.x -= this.velocidad;
     image(this.imagen, this.x, this.y);
   }
 
   atacar() {
-    // Lógica para ataque del zombie
+    this.golpes++;
+    console.log(this.golpes);
   }
 }
 
