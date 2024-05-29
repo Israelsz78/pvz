@@ -23,6 +23,10 @@ class Lanzaguisantes {
         }
     }
 
+    hidePlant() {
+
+    }
+
     shoot() {
         // Añadir lógica para disparar guisantes
     }

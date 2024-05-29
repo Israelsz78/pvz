@@ -14,23 +14,19 @@ class ZombieCubo {
         manipulando la variable "y" del zombie*/
         switch (this.numeroFila) {
             case 0:
-                this.y = -9;
-
+                this.y = 5;
                 break;
             case 1:
-                this.y = 25;
-
+                this.y = 43;
                 break;
             case 2:
-                this.y = 58;
-
+                this.y = 74;
                 break;
             case 3:
-                this.y = 84;
+                this.y = 100;
                 break;
             case 4:
-                this.y = 120;
-
+                this.y = 134;
                 break;
         }
 

@@ -69,8 +69,8 @@ function preload() {
   spriteSheetSol = loadImage('assets/sol.png');
   spriteSheetGirasol = loadImage('assets/Girasolbrillando.png');
   spriteSheetZombieBandera = loadImage('assets/zombiebandera.png');
-    
-    
+
+
 }
 
 function setup() {
@@ -83,16 +83,16 @@ function setup() {
 
   sol = spriteSheetSol.get(0, 0, 26, 26);
   girasolBrillando = spriteSheetGirasol.get(365, 158, 87, 95);
-  imgPlanta2 = spriteSheetGirasolNormal.get(28,57,89,91)
-  imgPlanta1 = spriteSheetRepetidora.get(3,2,28,31);
-  imgPlanta5 = spriteSheetNuez.get(0,33,28,31);
-  imgPlanta3 = spriteSheetLanzaguisante.get(0,1,27,31);
-  imgPlanta4 = spriteSheetMina.get(123,2,28,24);
-  zombieNormal = spriteSheetZombieNormal.get(4,12,27,44);
-  zombieCubo = spriteSheetZombieCubo.get(4,6,29,50);
-  zombieCono = spriteSheetZombieCono.get(4,2,27,54);
-  zombieYeti = spriteSheetZombieYeti.get(103,2,40,65);
-  zombieBandera = spriteSheetZombieBandera.get(2,4,37,52);
+  imgPlanta2 = spriteSheetGirasolNormal.get(28, 57, 89, 91)
+  imgPlanta1 = spriteSheetRepetidora.get(3, 2, 28, 31);
+  imgPlanta5 = spriteSheetNuez.get(0, 33, 28, 31);
+  imgPlanta3 = spriteSheetLanzaguisante.get(0, 1, 27, 31);
+  imgPlanta4 = spriteSheetMina.get(123, 2, 28, 24);
+  zombieNormal = spriteSheetZombieNormal.get(4, 12, 27, 44);
+  zombieCubo = spriteSheetZombieCubo.get(4, 6, 29, 50);
+  zombieCono = spriteSheetZombieCono.get(4, 2, 27, 54);
+  zombieYeti = spriteSheetZombieYeti.get(103, 2, 40, 65);
+  zombieBandera = spriteSheetZombieBandera.get(2, 4, 37, 52);
 
 
   imagenesDePlantas = {
@@ -127,7 +127,7 @@ function draw() {
   let centerX = 0;
   let centerY = 0;
 
-  
+
   image(imgFondo, centerX, centerY);
 
 
@@ -187,7 +187,7 @@ function draw() {
     let imgX = planta.x + (cellWidth - imgWidthScaled) / 2;
     let imgY = planta.y + (cellHeight - imgHeightScaled) / 2;
 
-    
+
     image(planta.img, imgX, imgY, imgWidthScaled, imgHeightScaled);
   }
   if (imgActualSeguirCursor) {
@@ -224,10 +224,10 @@ function draw() {
       if (sol.y < sol.finalY) {
         sol.y += 0.4;
         image(sol.img, sol.x, sol.y, sol.Width, sol.Height);
-      } else if (!sol.timeFinalReached){
-        sol.timeFinalReached= millis()
+      } else if (!sol.timeFinalReached) {
+        sol.timeFinalReached = millis()
       }
-      
+
     }
   });
 
@@ -251,11 +251,19 @@ function draw() {
     }
     if (!sol.recolectado && sol.timeFinalReached && (millis() - sol.timeFinalReached > 5000)) {
       return false;
-  }
+    }
     return true;
   });
 
-  
+  //detectar colision
+  for (let zombie of zombiesCreados) {
+    for (let planta of plantasColocadas) {
+      if (zombie.x <= planta.x + 10) {
+        console.log('toca la planta')
+      }
+    }
+  }
+
 }
 
 function generarSolAleatorio() {
@@ -300,7 +308,7 @@ function mouseClicked() {
     }
     plantaColocada = false;
     console.log("Puntos restantes: " + puntos);
-    
+
   }
 
 
@@ -338,7 +346,7 @@ function mouseClicked() {
     }
     plantaColocada = false;
     console.log("Puntos restantes: " + puntos);
-    
+
   }
 
 
@@ -393,38 +401,38 @@ function mouseClicked() {
 
   if (mouseX > gridStartX && mouseX < gridStartX + gridWidth && mouseY > gridStartY && mouseY < gridStartY + gridHeight) {
     if (plantaSeleccionada && !celdasOcupadas[celdaKey] && puntos >= costosPlantas[plantaSeleccionada]) {
-        let x = gridStartX + column * cellWidth;
-        let y = gridStartY + row * cellHeight;
+      let x = gridStartX + column * cellWidth;
+      let y = gridStartY + row * cellHeight;
 
-        let planta = null;
-        switch (plantaSeleccionada) {
-            case "Girasol":
-                planta = new Girasol(x, y, imgPlanta2, girasolBrillando);
-                break;
-            case "Repetidora":
-                planta = new Repetidora(x, y, imgPlanta1);
-                break;
-            case "Mina":
-                planta = new Mina(x, y, imgPlanta4);
-                break;
-            case "Lanzaguisante":
-                planta = new Lanzaguisantes(x, y, imgPlanta3);
-                break;
-            case "Nuez":
-                planta = new Nuez(x, y, imgPlanta5);
-                break;
-        }
-
-        if (planta) {
-          plantasColocadas.push(planta);
-          celdasOcupadas[celdaKey] = true;
-          puntos -= costosPlantas[plantaSeleccionada];
-          console.log(`Planta ${plantaSeleccionada} colocada. Puntos restantes: ${puntos}`);
-          plantaSeleccionada = null;
-          imgActualSeguirCursor = null;
+      let planta = null;
+      switch (plantaSeleccionada) {
+        case "Girasol":
+          planta = new Girasol(x, y, imgPlanta2, girasolBrillando);
+          break;
+        case "Repetidora":
+          planta = new Repetidora(x, y, imgPlanta1);
+          break;
+        case "Mina":
+          planta = new Mina(x, y, imgPlanta4);
+          break;
+        case "Lanzaguisante":
+          planta = new Lanzaguisantes(x, y, imgPlanta3);
+          break;
+        case "Nuez":
+          planta = new Nuez(x, y, imgPlanta5);
+          break;
       }
+
+      if (planta) {
+        plantasColocadas.push(planta);
+        celdasOcupadas[celdaKey] = true;
+        puntos -= costosPlantas[plantaSeleccionada];
+        console.log(`Planta ${plantaSeleccionada} colocada. Puntos restantes: ${puntos}`);
+        plantaSeleccionada = null;
+        imgActualSeguirCursor = null;
+      }
+    }
   }
-}
 }
 function dibujarZombie() {
   numeroAleatorio = Math.floor(Math.random() * 4);

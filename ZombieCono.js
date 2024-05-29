@@ -14,24 +14,19 @@ class ZombieCono {
         manipulando la variable "y" del zombie*/
         switch (this.numeroFila) {
             case 0:
-                this.y = 1;
-
+                this.y = 2;
                 break;
             case 1:
-                this.y = 37;
-
+                this.y = 38;
                 break;
             case 2:
-                this.y = 70;
-
+                this.y = 71;
                 break;
             case 3:
-                this.y = 93;
-
+                this.y = 96;
                 break;
             case 4:
-                this.y = 130;
-
+                this.y = 131;
                 break;
         }
 
