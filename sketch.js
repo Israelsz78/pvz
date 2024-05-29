@@ -223,8 +223,11 @@ function draw() {
     if (!sol.recolectado) {
       if (sol.y < sol.finalY) {
         sol.y += 0.4;
+        image(sol.img, sol.x, sol.y, sol.Width, sol.Height);
+      } else if (!sol.timeFinalReached){
+        sol.timeFinalReached= millis()
       }
-      image(sol.img, sol.x, sol.y, sol.Width, sol.Height);
+      
     }
   });
 
@@ -237,6 +240,7 @@ function draw() {
       sol.y += moveY;
 
       if (Math.abs(sol.x - sol.targetX) < 1 && Math.abs(sol.y - sol.targetY) < 1) {
+        sol.recolectado = true;
         puntos += 25;
         return false;
       }
@@ -245,6 +249,9 @@ function draw() {
     if (!sol.recolectado || sol.moviéndose) {
       image(sol.img, sol.x, sol.y, sol.Width, sol.Height);
     }
+    if (!sol.recolectado && sol.timeFinalReached && (millis() - sol.timeFinalReached > 5000)) {
+      return false;
+  }
     return true;
   });
 
