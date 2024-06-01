@@ -42,6 +42,9 @@ let spriteSheetZombieCono;
 let spriteSheetZombieYeti;
 let spriteSheetZombieBandera;
 let girasol;
+let ultimosUsos;
+let cooldowns;
+
 
 
 function preload() {
@@ -110,6 +113,23 @@ function setup() {
     "Mina": 25,
     "Nuez": 50
   };
+  cooldowns = {
+    "Repetidora": 10000,  
+    "Girasol": 5000,     
+    "Lanzaguisante": 5000, 
+    "Mina": 10000,        
+    "Nuez": 20000         
+  };
+
+   ultimosUsos = {
+    "Repetidora": 0,
+    "Girasol": 0,
+    "Lanzaguisante": 0,
+    "Mina": 0,
+    "Nuez": 0
+  };
+  
+  
 
   cBack = color(255);
   registroT = millis();
@@ -264,7 +284,7 @@ function draw() {
     }
   }
 
-  console.log(plantasColocadas)
+  
 
 }
 
@@ -296,135 +316,55 @@ function windowResized() {
 
 function mouseClicked() {
   console.log("Mouse X:", mouseX, "Mouse Y:", mouseY);
-  if (mouseX >= 143 && mouseX <= 168 && mouseY >= 0 && mouseY <= 23) {
-    if (plantaSeleccionada === "Repetidora") {
-      plantaSeleccionada = null;
-      imgActualSeguirCursor = null;
-    } else {
-      if (puntos >= costosPlantas["Repetidora"]) {
-        plantaSeleccionada = "Repetidora";
-        imgActualSeguirCursor = imagenesDePlantas["Repetidora"];
-      } else {
-        console.log("No tienes suficientes puntos para colocar una Repetidora.");
-      }
-    }
-    plantaColocada = false;
-    console.log("Puntos restantes: " + puntos);
+  const plantas = [
+    { nombre: "Repetidora", xMin: 143, xMax: 168, yMin: 0, yMax: 23 },
+    { nombre: "Girasol", xMin: 43, xMax: 67, yMin: 0, yMax: 23 },
+    { nombre: "Lanzaguisante", xMin: 68, xMax: 93, yMin: 0, yMax: 23 },
+    { nombre: "Mina", xMin: 94, xMax: 115, yMin: -2, yMax: 23 },
+    { nombre: "Nuez", xMin: 116, xMax: 140, yMin: -8, yMax: 23 }
+  ];
 
+  for (let planta of plantas) {
+    if (mouseX >= planta.xMin && mouseX <= planta.xMax && mouseY >= planta.yMin && mouseY <= planta.yMax) {
+      if (millis() - ultimosUsos[planta.nombre] < cooldowns[planta.nombre]) {
+        console.log(planta.nombre + " está en cooldown. Espera " + ((cooldowns[planta.nombre] - (millis() - ultimosUsos[planta.nombre])) / 1000).toFixed(1) + " segundos.");
+        return;
+      }
+
+      if (plantaSeleccionada === planta.nombre) {
+        plantaSeleccionada = null;
+        imgActualSeguirCursor = null;
+      } else {
+        if (puntos >= costosPlantas[planta.nombre]) {
+          plantaSeleccionada = planta.nombre;
+          imgActualSeguirCursor = imagenesDePlantas[planta.nombre];
+          ultimosUsos[planta.nombre] = millis();  // Actualizamos el último uso al seleccionar
+        } else {
+          console.log("No tienes suficientes puntos para colocar una " + planta.nombre + ".");
+        }
+      }
+      plantaColocada = false;
+      console.log("Puntos restantes: " + puntos);
+      return; // Salir una vez que se maneja la selección
+    }
   }
 
-
-
-
-  if (mouseX >= 43 && mouseX <= 43 + 24 && mouseY >= 0 && mouseY <= 23) {
-    if (plantaSeleccionada === "Girasol") {
-      plantaSeleccionada = null;
-      imgActualSeguirCursor = null;
-    } else {
-      if (puntos >= costosPlantas["Girasol"]) {
-        plantaSeleccionada = "Girasol";
-        imgActualSeguirCursor = imagenesDePlantas["Girasol"];
-      } else {
-        console.log("No tienes suficientes puntos para colocar un girasol.");
-      }
-    }
-    plantaColocada = false;
-    console.log("Puntos restantes: " + puntos);
-    return;
-  }
-
-
-  if (mouseX >= 68 && mouseX <= 93 && mouseY >= 0 && mouseY <= 23) {
-    if (plantaSeleccionada === "Lanzaguisante") {
-      plantaSeleccionada = null;
-      imgActualSeguirCursor = null;
-    } else {
-      if (puntos >= costosPlantas["Lanzaguisante"]) {
-        plantaSeleccionada = "Lanzaguisante";
-        imgActualSeguirCursor = imagenesDePlantas["Lanzaguisante"];
-      } else {
-        console.log("No tienes suficientes puntos para colocar un Lanzaguisante.");
-      }
-    }
-    plantaColocada = false;
-    console.log("Puntos restantes: " + puntos);
-
-  }
-
-
-  if (mouseX >= 94 && mouseX <= 115 && mouseY >= -2 && mouseY <= 23) {
-    if (plantaSeleccionada === "Mina") {
-      plantaSeleccionada = null;
-      imgActualSeguirCursor = null;
-    } else {
-      if (puntos >= costosPlantas["Mina"]) {
-        plantaSeleccionada = "Mina";
-        imgActualSeguirCursor = imagenesDePlantas["Mina"];
-      } else {
-        console.log("No tienes suficientes puntos para colocar una Mina.");
-      }
-    }
-    plantaColocada = false;
-    console.log("Puntos restantes: " + puntos);
-  }
-
-
-  if (mouseX >= 116 && mouseX <= 140 && mouseY >= -8 && mouseY <= 23) {
-    if (plantaSeleccionada === "Nuez") {
-      plantaSeleccionada = null;
-      imgActualSeguirCursor = null;
-    } else {
-      if (puntos >= costosPlantas["Nuez"]) {
-        plantaSeleccionada = "Nuez";
-        imgActualSeguirCursor = imagenesDePlantas["Nuez"];
-      } else {
-        console.log("No tienes suficientes puntos para colocar una Nuez.");
-      }
-    }
-    plantaColocada = false;
-    console.log("Puntos restantes: " + puntos);
-  }
-
-
-
+  // Mantén la sección que maneja la colocación de plantas en la cuadrícula aquí si es necesaria
   let gridStartX = imgWidth * 0.03;
   let gridStartY = imgHeight * 0.13;
   let gridWidth = imgWidth * 0.91;
   let gridHeight = imgHeight * 0.83;
-
   let cellWidth = gridWidth / 9;
   let cellHeight = gridHeight / 5;
-
   let column = Math.floor((mouseX - gridStartX) / cellWidth);
   let row = Math.floor((mouseY - gridStartY) / cellHeight);
-
-
   let celdaKey = `r${row}c${column}`;
 
   if (mouseX > gridStartX && mouseX < gridStartX + gridWidth && mouseY > gridStartY && mouseY < gridStartY + gridHeight) {
     if (plantaSeleccionada && !celdasOcupadas[celdaKey] && puntos >= costosPlantas[plantaSeleccionada]) {
       let x = gridStartX + column * cellWidth;
       let y = gridStartY + row * cellHeight;
-
-      let planta = null;
-      switch (plantaSeleccionada) {
-        case "Girasol":
-          planta = new Girasol(x, y, imgPlanta2, girasolBrillando);
-          break;
-        case "Repetidora":
-          planta = new Repetidora(x, y, imgPlanta1);
-          break;
-        case "Mina":
-          planta = new Mina(x, y, imgPlanta4);
-          break;
-        case "Lanzaguisante":
-          planta = new Lanzaguisantes(x, y, imgPlanta3);
-          break;
-        case "Nuez":
-          planta = new Nuez(x, y, imgPlanta5);
-          break;
-      }
-
+      let planta = eval(`new ${plantaSeleccionada}(x, y, imagenesDePlantas[plantaSeleccionada.split(" ").join("")]);`);
       if (planta) {
         plantasColocadas.push(planta);
         celdasOcupadas[celdaKey] = true;
@@ -436,6 +376,7 @@ function mouseClicked() {
     }
   }
 }
+
 function dibujarZombie() {
   numeroAleatorio = Math.floor(Math.random() * 4);
   let newZombie;

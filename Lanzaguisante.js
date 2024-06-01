@@ -1,4 +1,4 @@
-class Lanzaguisantes {
+class Lanzaguisante {
     constructor(x, y, img) {
         this.x = x;
         this.y = y;
