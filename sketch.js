@@ -44,6 +44,7 @@ let spriteSheetZombieBandera;
 let girasol;
 let ultimosUsos;
 let cooldowns;
+let fila;
 
 
 
@@ -114,22 +115,22 @@ function setup() {
     "Nuez": 50
   };
   cooldowns = {
-    "Repetidora": 10000,  
-    "Girasol": 5000,     
-    "Lanzaguisante": 5000, 
-    "Mina": 10000,        
-    "Nuez": 20000         
+    "Repetidora": 10000,
+    "Girasol": 5000,
+    "Lanzaguisante": 5000,
+    "Mina": 10000,
+    "Nuez": 20000
   };
 
-   ultimosUsos = {
+  ultimosUsos = {
     "Repetidora": 0,
     "Girasol": 0,
     "Lanzaguisante": 0,
     "Mina": 0,
     "Nuez": 0
   };
-  
-  
+
+
 
   cBack = color(255);
   registroT = millis();
@@ -275,16 +276,17 @@ function draw() {
     return true;
   });
 
+
   //detectar colision
   for (let zombie of zombiesCreados) {
     for (let planta of plantasColocadas) {
-      if (zombie.x <= planta.x + 10) {
+      if (zombie.x <= planta.x + 10 && zombie.numeroFila === planta.fila) {
         quitarPlanta(planta);
       }
     }
   }
 
-  
+
 
 }
 
@@ -366,10 +368,12 @@ function mouseClicked() {
       let y = gridStartY + row * cellHeight;
       let planta = eval(`new ${plantaSeleccionada}(x, y, imagenesDePlantas[plantaSeleccionada.split(" ").join("")]);`);
       if (planta) {
+        //le asigno a cada planta su numero de fila;
+        planta.fila = row;
         plantasColocadas.push(planta);
         celdasOcupadas[celdaKey] = true;
         puntos -= costosPlantas[plantaSeleccionada];
-        console.log(`Planta ${plantaSeleccionada} colocada. Puntos restantes: ${puntos}`);
+        console.log(`Planta ${plantaSeleccionada} colocada en la fila ${planta.fila}. Puntos restantes: ${puntos}`);
         plantaSeleccionada = null;
         imgActualSeguirCursor = null;
       }

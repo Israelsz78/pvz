@@ -6,6 +6,7 @@ class Repetidora {
         this.attackInterval = 1000; // Cada segundo
         this.lastAttackTime = millis();
         this.isVisible = true;
+        this.fila = 0;
     }
 
     draw() {

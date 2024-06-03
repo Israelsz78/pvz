@@ -10,6 +10,7 @@ class Girasol {
         this.activeDuration = 500;
         this.lastActiveTime = 0;
         this.isVisible = true;
+        this.fila = 0;
     }
 
     draw() {
