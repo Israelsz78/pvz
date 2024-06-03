@@ -40,7 +40,7 @@ class ZombieNormal {
         this.y = 80;
         break;
       case 3:
-        this.y = 110;
+        this.y = 107;
         break;
       case 4:
         this.y = 139;
