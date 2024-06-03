@@ -6,9 +6,6 @@ class ZombieYeti {
         this.salud = salud;
         this.imagen = imagen;
         this.numeroFila = Math.floor(Math.random() * 5);
-        if (this.numeroFila === 3) {
-            console.log('fila 4');
-        }
     }
 
     mover() {
@@ -20,10 +17,10 @@ class ZombieYeti {
                 this.y = -9;
                 break;
             case 1:
-                this.y = 56;
+                this.y = 28;
                 break;
             case 2:
-                this.y = 125;
+                this.y = 60;
                 break;
             case 3:
                 this.y = 86;

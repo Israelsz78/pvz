@@ -44,9 +44,6 @@ let spriteSheetZombieBandera;
 let girasol;
 let ultimosUsos;
 let cooldowns;
-let fila;
-
-
 
 function preload() {
   imgFondo = loadImage('assets/escenario.png');
@@ -285,9 +282,6 @@ function draw() {
       }
     }
   }
-
-
-
 }
 
 function generarSolAleatorio() {
@@ -376,6 +370,8 @@ function mouseClicked() {
         console.log(`Planta ${plantaSeleccionada} colocada en la fila ${planta.fila}. Puntos restantes: ${puntos}`);
         plantaSeleccionada = null;
         imgActualSeguirCursor = null;
+        console.log(celdaKey);
+        console.log(celdasOcupadas)
       }
     }
   }
