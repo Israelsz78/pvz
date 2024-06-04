@@ -225,8 +225,6 @@ function draw() {
     planta.update();
   });
 
-
-
   zombiesCreados.forEach((zombie) => {
     zombie.mover();
   });
@@ -364,10 +362,11 @@ function mouseClicked() {
       if (planta) {
         //le asigno a cada planta su numero de fila;
         planta.fila = row;
+        planta.columna = column;
         plantasColocadas.push(planta);
         celdasOcupadas[celdaKey] = true;
         puntos -= costosPlantas[plantaSeleccionada];
-        console.log(`Planta ${plantaSeleccionada} colocada en la fila ${planta.fila}. Puntos restantes: ${puntos}`);
+        console.log(`Planta ${plantaSeleccionada} colocada en el punto ${planta.fila},${planta.columna}. Puntos restantes: ${puntos}`);
         plantaSeleccionada = null;
         imgActualSeguirCursor = null;
         console.log(celdaKey);
@@ -418,4 +417,8 @@ function quitarPlanta(planta) {
   planta.isVisible = false;
   let IndexPlantRemove = plantasColocadas.findIndex(plant => plant === planta);
   plantasColocadas.splice(IndexPlantRemove, 1);
+
+  //la celda que ocupaba la planta se pasa a "desocupada" o "false"
+  let celdaKey = `r${planta.fila}c${planta.columna}`;
+  celdasOcupadas[celdaKey] = false;
 }

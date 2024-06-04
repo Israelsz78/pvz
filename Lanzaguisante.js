@@ -7,6 +7,7 @@ class Lanzaguisante {
         this.lastAttackTime = millis();
         this.isVisible = true;
         this.fila = 0;
+        this.columna = 0;
     }
 
     draw() {
