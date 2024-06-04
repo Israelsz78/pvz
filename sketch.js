@@ -277,7 +277,7 @@ function draw() {
   //detectar colision
   for (let zombie of zombiesCreados) {
     for (let planta of plantasColocadas) {
-      if (zombie.x <= planta.x + 10 && zombie.numeroFila === planta.fila) {
+      if (zombie.x <= planta.x + 10 && zombie.x >= planta.x && zombie.numeroFila === planta.fila) {
         quitarPlanta(planta);
       }
     }
