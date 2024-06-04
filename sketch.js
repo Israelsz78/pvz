@@ -338,7 +338,6 @@ function mouseClicked() {
         }
       }
       plantaColocada = false;
-      console.log("Puntos restantes: " + puntos);
       return; // Salir una vez que se maneja la selección
     }
   }
@@ -366,7 +365,6 @@ function mouseClicked() {
         plantasColocadas.push(planta);
         celdasOcupadas[celdaKey] = true;
         puntos -= costosPlantas[plantaSeleccionada];
-        console.log(`Planta ${plantaSeleccionada} colocada en el punto ${planta.fila},${planta.columna}. Puntos restantes: ${puntos}`);
         plantaSeleccionada = null;
         imgActualSeguirCursor = null;
         console.log(celdaKey);

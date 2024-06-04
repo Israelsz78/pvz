@@ -17,8 +17,6 @@ class Girasol {
     draw() {
         if (this.currentImage && this.isVisible) {
             image(this.currentImage, this.x, this.y, cellWidth, cellHeight);
-        } else {
-            console.log("no currentImage to draw");
         }
     }
 
