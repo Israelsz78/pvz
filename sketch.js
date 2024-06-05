@@ -284,8 +284,8 @@ function draw() {
   for (let planta of plantasColocadas) {
     for (let zombie of zombiesCreados) {
       if (zombie.x <= planta.x + 10 && zombie.x >= planta.x && zombie.numeroFila === planta.fila && planta.name == 'mina') {
+        verificarZombiesCercanos(zombie);
         quitarPlanta(planta);
-        quitarZombie(zombie);
       }
     }
   }
@@ -427,4 +427,13 @@ function quitarZombie(zombie) {
   zombie.isVisible = false;
   let indexZombie = zombiesCreados.findIndex(zomb => zomb === zombie);
   zombiesCreados.splice(indexZombie, 1);
+}
+
+function verificarZombiesCercanos(zombieExplotado) {
+  for (let zombie of zombiesCreados) {
+    /*si un zombie está cercano al zombie explotado*/
+    if (zombie.x >= zombieExplotado.x - 100 && zombie.x <= zombieExplotado.x + 100 && zombie.numeroFila === zombieExplotado.numeroFila) {
+      quitarZombie(zombie);
+    }
+  }
 }
