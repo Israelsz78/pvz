@@ -7,6 +7,7 @@ class ZombieNormal {
     this.imagen = imagen;
     this.numeroFila = Math.floor(Math.random() * 5);
     this.golpes = 0;
+    this.isVisible = true;
   }
 
   mover() {
@@ -31,8 +32,10 @@ class ZombieNormal {
         break;
     }
 
-    this.x -= this.velocidad;
-    image(this.imagen, this.x, this.y);
+    if (this.isVisible) {
+      this.x -= this.velocidad
+      image(this.imagen, this.x, this.y);
+    }
   }
 
   atacar() {

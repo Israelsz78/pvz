@@ -6,6 +6,7 @@ class ZombieCubo {
         this.salud = salud;
         this.imagen = imagen;
         this.numeroFila = Math.floor(Math.random() * 5);
+        this.isVisible = true;
     }
 
     mover() {
@@ -30,8 +31,10 @@ class ZombieCubo {
                 break;
         }
 
-        this.x -= this.velocidad
-        image(this.imagen, this.x, this.y);
+        if (this.isVisible) {
+            this.x -= this.velocidad
+            image(this.imagen, this.x, this.y);
+        }
     }
 
     atacar() {

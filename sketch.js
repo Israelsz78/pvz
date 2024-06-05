@@ -267,7 +267,7 @@ function draw() {
   //detectar colision
   for (let zombie of zombiesCreados) {
     for (let planta of plantasColocadas) {
-      if (zombie.x <= planta.x + 10 && zombie.x >= planta.x && zombie.numeroFila === planta.fila) {
+      if (zombie.x <= planta.x + 10 && zombie.x >= planta.x && zombie.numeroFila === planta.fila && planta.name != 'mina') {
         quitarPlanta(planta);
       }
     }
@@ -277,6 +277,16 @@ function draw() {
   for (let planta of plantasColocadas) {
     if (planta.name === 'lanzaguisantes') {
       planta.shoot();
+    }
+  }
+
+  //conlision entre mina y zombies
+  for (let planta of plantasColocadas) {
+    for (let zombie of zombiesCreados) {
+      if (zombie.x <= planta.x + 10 && zombie.x >= planta.x && zombie.numeroFila === planta.fila && planta.name == 'mina') {
+        quitarPlanta(planta);
+        quitarZombie(zombie);
+      }
     }
   }
 }
@@ -411,4 +421,10 @@ function quitarPlanta(planta) {
   //la celda que ocupaba la planta se pasa a "desocupada" o "false"
   let celdaKey = `r${planta.fila}c${planta.columna}`;
   celdasOcupadas[celdaKey] = false;
+}
+
+function quitarZombie(zombie) {
+  zombie.isVisible = false;
+  let indexZombie = zombiesCreados.findIndex(zomb => zomb === zombie);
+  zombiesCreados.splice(indexZombie, 1);
 }
