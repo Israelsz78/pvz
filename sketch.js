@@ -289,6 +289,44 @@ function draw() {
       }
     }
   }
+
+  tiempoActual = millis();
+  
+  if (tiempoActual < ultimosUsos["Girasol"] + cooldowns["Girasol"]) {
+    tint(100);  
+  } else {
+    noTint(); 
+  }
+  image(planta2, 39, -2, 29, 27);
+
+  if (tiempoActual < ultimosUsos["Repetidora"] + cooldowns["Repetidora"]) {
+    tint(100);  
+  } else {
+    noTint(); 
+  }
+  image(planta1, 129, 0, 41, 26);
+
+  if (tiempoActual < ultimosUsos["Lanzaguisante"] + cooldowns["Lanzaguisante"]) {
+    tint(100);  
+  } else {
+    noTint(); 
+  }
+  image(planta3, 68, -4, 25, 31);
+
+  if (tiempoActual < ultimosUsos["Mina"] + cooldowns["Mina"]) {
+    tint(100);  
+  } else {
+    noTint(); 
+  }
+  image(planta4, 91, -2, 25, 29);
+
+  if (tiempoActual < ultimosUsos["Nuez"] + cooldowns["Nuez"]) {
+    tint(100);  
+  } else {
+    noTint(); 
+  }
+  image(planta5, 116, -8, 25, 32);
+  noTint();
 }
 
 function generarSolAleatorio() {
