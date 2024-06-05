@@ -70,8 +70,6 @@ function preload() {
   spriteSheetSol = loadImage('assets/sol.png');
   spriteSheetGirasol = loadImage('assets/Girasolbrillando.png');
   spriteSheetZombieBandera = loadImage('assets/zombiebandera.png');
-
-
 }
 
 function setup() {
@@ -127,8 +125,6 @@ function setup() {
     "Nuez": 0
   };
 
-
-
   cBack = color(255);
   registroT = millis();
 
@@ -145,9 +141,7 @@ function draw() {
   let centerX = 0;
   let centerY = 0;
 
-
   image(imgFondo, centerX, centerY);
-
 
   image(imgSol, 19, -1, 17, 17);
   image(planta1, 129, 0, 41, 26);
@@ -155,8 +149,6 @@ function draw() {
   image(planta3, 68, -4, 25, 31);
   image(planta4, 91, -2, 25, 29);
   image(planta5, 116, -8, 25, 32);
-
-
 
   image(plantaSeleccionada === "Repetidora" ? imgPlanta1Selected : planta1, 129, 0, 41, 26);
   image(plantaSeleccionada === "Girasol" ? imgPlanta2Selected : planta2, 39, -2, 29, 27);
@@ -280,6 +272,13 @@ function draw() {
       }
     }
   }
+
+  //disparar lanzaguisante
+  for (let planta of plantasColocadas) {
+    if (planta.name === 'lanzaguisantes') {
+      planta.shoot();
+    }
+  }
 }
 
 function generarSolAleatorio() {
@@ -299,8 +298,6 @@ function generarSolAleatorio() {
     height: cellHeight * 0.3
   });
 }
-
-
 
 function windowResized() {
   canvas.style.removeProperty("height")
@@ -359,7 +356,7 @@ function mouseClicked() {
       let y = gridStartY + row * cellHeight;
       let planta = eval(`new ${plantaSeleccionada}(x, y, imagenesDePlantas[plantaSeleccionada.split(" ").join("")]);`);
       if (planta) {
-        //le asigno a cada planta su numero de fila;
+        //le asigno a cada planta su numero de fila y columna;
         planta.fila = row;
         planta.columna = column;
         plantasColocadas.push(planta);
@@ -393,11 +390,6 @@ function dibujarZombie() {
   }
   zombiesCreados.push(newZombie);
 }
-
-document.addEventListener("click", (e) => {
-  console.log('x: ' + e.clientX);
-  console.log('y: ' + e.clientY);
-});
 
 function mouseMoved() {
   soles.forEach(sol => {

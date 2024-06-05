@@ -1,5 +1,6 @@
 class Lanzaguisante {
     constructor(x, y, img) {
+        this.name = 'lanzaguisantes';
         this.x = x;
         this.y = y;
         this.img = img;
@@ -8,6 +9,8 @@ class Lanzaguisante {
         this.isVisible = true;
         this.fila = 0;
         this.columna = 0;
+        this.xBall = x + 30;
+        this.yBall = y + 7;
     }
 
     draw() {
@@ -29,6 +32,9 @@ class Lanzaguisante {
     }
 
     shoot() {
-        // Añadir lógica para disparar guisantes
+        this.xBall += 1;
+        fill('#18f423')
+        strokeWeight(1);
+        ellipse(this.xBall, this.yBall, 10, 10);
     }
 }

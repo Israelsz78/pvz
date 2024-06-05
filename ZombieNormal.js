@@ -7,22 +7,6 @@ class ZombieNormal {
     this.imagen = imagen;
     this.numeroFila = Math.floor(Math.random() * 5);
     this.golpes = 0;
-
-    if (this.numeroFila === 0) {
-      console.log('zombie fila 1');
-    }
-    if (this.numeroFila === 1) {
-      console.log('zombie fila 2');
-    }
-    if (this.numeroFila === 2) {
-      console.log('zombie fila 3');
-    }
-    if (this.numeroFila === 3) {
-      console.log('zombie fila 4');
-    }
-    if (this.numeroFila === 4) {
-      console.log('zombie fila 5');
-    }
   }
 
   mover() {

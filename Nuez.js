@@ -1,5 +1,6 @@
 class Nuez {
     constructor(x, y, img) {
+        this.name = '';
         this.x = x;
         this.y = y;
         this.img = img;
