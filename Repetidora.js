@@ -1,6 +1,6 @@
 class Repetidora {
     constructor(x, y, img) {
-        this.name = '';
+        this.name = 'Repetidora';
         this.x = x;
         this.y = y;
         this.img = img;

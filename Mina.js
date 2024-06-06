@@ -1,6 +1,6 @@
 class Mina {
     constructor(x, y, img) {
-        this.name = 'mina';
+        this.name = 'Mina';
         this.x = x;
         this.y = y;
         this.img = img;

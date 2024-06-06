@@ -1,6 +1,6 @@
 class Girasol {
     constructor(x, y, img, imgActive) {
-        this.name = '';
+        this.name = 'Girasol';
         this.x = x;
         this.y = y;
         this.img = img;

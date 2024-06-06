@@ -290,18 +290,11 @@ function draw() {
       }
     }
   }
-
-  //disparar lanzaguisante
-  for (let planta of plantasColocadas) {
-    if (planta.name === 'lanzaguisantes') {
-      planta.shoot();
-    }
-  }
-
+  
   //conlision entre mina y zombies
   for (let planta of plantasColocadas) {
     for (let zombie of zombiesCreados) {
-      if (zombie.x <= planta.x + 10 && zombie.x >= planta.x - 10 && zombie.numeroFila === planta.fila && planta.name == 'mina') {
+      if (zombie.x <= planta.x + 10 && zombie.x >= planta.x - 10 && zombie.numeroFila === planta.fila && planta.name == 'Mina') {
         verificarZombiesCercanos(zombie);
         quitarPlanta(planta);
       }
