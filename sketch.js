@@ -172,7 +172,7 @@ function draw() {
   let cellWidth = gridWidth / 9;
   let cellHeight = gridHeight / 5;
 
-  
+
 
   fill(255);
   textSize(13);
@@ -337,37 +337,37 @@ function draw() {
   tiempoActual = millis();
 
   if (tiempoActual < ultimosUsos["Girasol"] + cooldowns["Girasol"]) {
-    tint(100);  
+    tint(100);
   } else {
-    noTint(); 
+    noTint();
   }
   image(planta2, 39, -2, 29, 27);
 
   if (tiempoActual < ultimosUsos["Repetidora"] + cooldowns["Repetidora"]) {
-    tint(100);  
+    tint(100);
   } else {
-    noTint(); 
+    noTint();
   }
   image(planta1, 129, 0, 41, 26);
 
   if (tiempoActual < ultimosUsos["Lanzaguisante"] + cooldowns["Lanzaguisante"]) {
-    tint(100);  
+    tint(100);
   } else {
-    noTint(); 
+    noTint();
   }
   image(planta3, 68, -4, 25, 31);
 
   if (tiempoActual < ultimosUsos["Mina"] + cooldowns["Mina"]) {
-    tint(100);  
+    tint(100);
   } else {
-    noTint(); 
+    noTint();
   }
   image(planta4, 91, -2, 25, 29);
 
   if (tiempoActual < ultimosUsos["Nuez"] + cooldowns["Nuez"]) {
-    tint(100);  
+    tint(100);
   } else {
-    noTint(); 
+    noTint();
   }
   image(planta5, 116, -8, 25, 32);
   noTint();
@@ -447,6 +447,12 @@ function mouseClicked() {
       let x = gridStartX + column * cellWidth;
       let y = gridStartY + row * cellHeight;
       let planta = eval(`new ${plantaSeleccionada}(x, y, imagenesDePlantas[plantaSeleccionada.split(" ").join("")]);`);
+
+      //pongo esta condicional para que el sol brille
+      if (plantaSeleccionada === "Girasol") {
+        planta = new Girasol(x, y, imgPlanta2, girasolBrillando);
+      }
+
       if (planta) {
         //le asigno a cada planta su numero de fila y columna;
         planta.fila = row;
