@@ -34,16 +34,16 @@ class ZombieNormal {
     }
 
     if (!this.atacando) {
-      this.x -= this.velocidad
+      this.x -= this.velocidad;
     }
     if (this.isVisible) {
       image(this.imagen, this.x, this.y);
     }
   }
 
-  atacar() {
-    this.golpes++;
-    console.log(this.golpes);
+  atacar(planta) {
+    planta.vida--;
+    console.log(planta.vida);
   }
 }
 

@@ -11,6 +11,7 @@ class Lanzaguisante {
         this.columna = 0;
         this.xBall = x + 30;
         this.yBall = y + 7;
+        this.vida = 800;
     }
 
     draw() {

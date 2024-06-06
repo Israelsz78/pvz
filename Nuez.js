@@ -10,6 +10,7 @@ class Nuez {
         this.fila = 0;
         this.columna = 0;
         this.atacando = false;
+        this.vida = 2500;
     }
 
     draw() {

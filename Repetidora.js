@@ -9,6 +9,7 @@ class Repetidora {
         this.isVisible = true;
         this.fila = 0;
         this.columna = 0;
+        this.vida = 800;
     }
 
     draw() {

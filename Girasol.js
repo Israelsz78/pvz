@@ -7,12 +7,13 @@ class Girasol {
         this.imgActive = imgActive;
         this.currentImage = img;  // iniciar con la imagen por defecto
         this.lastProducedSol = millis();
-        this.produceSolInterval =3000;
+        this.produceSolInterval = 3000;
         this.activeDuration = 500;
         this.lastActiveTime = 0;
         this.isVisible = true;
         this.fila = 0;
         this.columna = 0;
+        this.vida = 800;
     }
 
     draw() {

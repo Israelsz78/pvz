@@ -41,8 +41,8 @@ class ZombieYeti {
         }
     }
 
-    atacar() {
-        this.golpes++;
-        console.log(this.golpes);
+    atacar(planta) {
+        planta.vida--;
+        console.log(planta.vida);
     }
 }

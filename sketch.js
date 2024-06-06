@@ -279,25 +279,10 @@ function draw() {
     for (let planta of plantasColocadas) {
       if (zombie.x <= planta.x + 10 && zombie.x >= planta.x && zombie.numeroFila === planta.fila && planta.name != 'mina') {
         zombie.atacando = true;
-        zombie.atacar();
-        if (zombie.golpes === 300) {
+        zombie.atacar(planta);
+        if (planta.vida === 0) {
           quitarPlanta(planta);
           zombie.atacando = false;
-          zombie.goles = 0;
-        }
-      }
-    }
-  }
-
-  for (let zombie of zombiesCreados) {
-    for (let planta of plantasColocadas) {
-      if (zombie.x <= planta.x + 10 && zombie.x >= planta.x && zombie.numeroFila === planta.fila && planta.name === 'nuez') {
-        zombie.atacando = true;
-        zombie.atacar();
-        if (zombie.golpes === 2500) {
-          quitarPlanta(planta);
-          zombie.atacando = false;
-          zombie.golpes = 0;
         }
       }
     }
