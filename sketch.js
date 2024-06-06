@@ -46,6 +46,7 @@ let ultimosUsos;
 let cooldowns;
 let carrito;
 let carritos = [];
+let zombiesAtacando = [];
 
 function preload() {
   imgFondo = loadImage('assets/escenario.png');
@@ -278,9 +279,11 @@ function draw() {
   for (let zombie of zombiesCreados) {
     for (let planta of plantasColocadas) {
       if (zombie.x <= planta.x + 10 && zombie.x >= planta.x && zombie.numeroFila === planta.fila && planta.name != 'mina') {
+        zombiesAtacando.push(zombie);
         zombie.atacando = true;
         zombie.atacar(planta);
         if (planta.vida === 0) {
+          verificarZombiesAtacando();
           quitarPlanta(planta);
           zombie.atacando = false;
         }
@@ -539,4 +542,15 @@ function verificarZombiesCercanos(zombieExplotado) {
 function eliminarCarrito(carrito) {
   let indexCarrito = carritos.findIndex(car => car === carrito);
   carritos.splice(indexCarrito, 1);
+}
+
+function verificarZombiesAtacando() {
+  /*si más de un zombie atacó la misma planta, cuando se coman la planta todos los zombies que atacaron
+  seguirán caminando*/
+  for (zombie of zombiesAtacando) {
+    zombie.atacando = false;
+  }
+
+  console.log(zombiesAtacando);
+  zombiesAtacando = [];
 }
