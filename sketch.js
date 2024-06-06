@@ -551,6 +551,6 @@ function verificarZombiesAtacando() {
     zombie.atacando = false;
   }
 
+  zombiesAtacando.splice(0, zombiesAtacando.length);
   console.log(zombiesAtacando);
-  zombiesAtacando = [];
 }
