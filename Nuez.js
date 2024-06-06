@@ -18,6 +18,10 @@ class Nuez {
         }
     }
 
+    update() {
+
+    }
+
     atacar() {
         this.golpes++;
         console.log(this.golpes);

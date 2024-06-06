@@ -224,6 +224,7 @@ function draw() {
 
   plantasColocadas.forEach(planta => {
     planta.draw();
+    planta.update();
   });
 
   zombiesCreados.forEach((zombie) => {
