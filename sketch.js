@@ -44,6 +44,8 @@ let spriteSheetZombieBandera;
 let girasol;
 let ultimosUsos;
 let cooldowns;
+let carrito;
+let carritos = [];
 
 function preload() {
   imgFondo = loadImage('assets/escenario.png');
@@ -70,6 +72,7 @@ function preload() {
   spriteSheetSol = loadImage('assets/sol.png');
   spriteSheetGirasol = loadImage('assets/Girasolbrillando.png');
   spriteSheetZombieBandera = loadImage('assets/zombiebandera.png');
+  carrito = loadImage('assets/carrito.png')
 }
 
 function setup() {
@@ -134,6 +137,12 @@ function setup() {
   gridHeight = imgHeight * 0.83;
   cellWidth = gridWidth / 9;
   cellHeight = gridHeight / 5;
+
+  carritos[0] = new Carro(carrito, -15, 10, 0, 3);
+  carritos[1] = new Carro(carrito, -15, 40, 1, 3);
+  carritos[2] = new Carro(carrito, -15, 73, 2, 3);
+  carritos[3] = new Carro(carrito, -15, 103, 3, 3);
+  carritos[4] = new Carro(carrito, -15, 133, 4, 3);
 };
 
 function draw() {
@@ -289,6 +298,39 @@ function draw() {
       }
     }
   }
+
+  for (let carrito of carritos) {
+    carrito.draw();
+  }
+
+  //colision entre zombies y carritos
+  for (let zombie of zombiesCreados) {
+    for (let carrito of carritos) {
+      if (zombie.x <= carrito.x + 10 && zombie.numeroFila === carrito.numeroFila && !carrito.arrancar) {
+        carrito.arrancar = true;
+      }
+    }
+  }
+
+  for (let carrito of carritos) {
+    if (carrito.arrancar) {
+      carrito.run();
+    }
+  }
+
+  for (let carrito of carritos) {
+    if (carrito.x >= width) {
+      eliminarCarrito(carrito);
+    }
+  }
+
+  for (let carrito of carritos) {
+    for (let zombie of zombiesCreados) {
+      if (carrito.x + 10 >= zombie.x && zombie.numeroFila === carrito.numeroFila && carrito.arrancar) {
+        quitarZombie(zombie);
+      }
+    }
+  }
 }
 
 function generarSolAleatorio() {
@@ -436,4 +478,9 @@ function verificarZombiesCercanos(zombieExplotado) {
       quitarZombie(zombie);
     }
   }
+}
+
+function eliminarCarrito(carrito) {
+  let indexCarrito = carritos.findIndex(car => car === carrito);
+  carritos.splice(indexCarrito, 1);
 }
