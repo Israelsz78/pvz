@@ -298,39 +298,6 @@ function draw() {
       }
     }
   }
-
-  for (let carrito of carritos) {
-    carrito.draw();
-  }
-
-  //colision entre zombies y carritos
-  for (let zombie of zombiesCreados) {
-    for (let carrito of carritos) {
-      if (zombie.x <= carrito.x + 10 && zombie.numeroFila === carrito.numeroFila && !carrito.arrancar) {
-        carrito.arrancar = true;
-      }
-    }
-  }
-
-  for (let carrito of carritos) {
-    if (carrito.arrancar) {
-      carrito.run();
-    }
-  }
-
-  for (let carrito of carritos) {
-    if (carrito.x >= width) {
-      eliminarCarrito(carrito);
-    }
-  }
-
-  for (let carrito of carritos) {
-    for (let zombie of zombiesCreados) {
-      if (carrito.x + 10 >= zombie.x && zombie.numeroFila === carrito.numeroFila && carrito.arrancar) {
-        quitarZombie(zombie);
-      }
-    }
-  }
 }
 
 function generarSolAleatorio() {
