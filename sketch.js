@@ -88,7 +88,7 @@ function setup() {
   girasolBrillando = spriteSheetGirasol.get(365, 158, 87, 95);
   imgPlanta2 = spriteSheetGirasolNormal.get(28, 57, 89, 91)
   imgPlanta1 = spriteSheetRepetidora.get(3, 2, 28, 31);
-  imgPlanta5 = spriteSheetNuez.get(0, 33, 28, 31);
+  imgPlanta5 = spriteSheetNuez.get(1, 1, 26, 30);
   imgPlanta3 = spriteSheetLanzaguisante.get(0, 1, 27, 31);
   imgPlanta4 = spriteSheetMina.get(123, 2, 28, 24);
   zombieNormal = spriteSheetZombieNormal.get(4, 12, 27, 44);
