@@ -278,7 +278,7 @@ function draw() {
   //detectar colision
   for (let zombie of zombiesCreados) {
     for (let planta of plantasColocadas) {
-      if (zombie.x <= planta.x + 10 && zombie.x >= planta.x && zombie.numeroFila === planta.fila && planta.name != 'mina') {
+      if (zombie.x <= planta.x + 10 && zombie.x >= planta.x - 12 && zombie.numeroFila === planta.fila && planta.name != 'mina') {
         zombiesAtacando.push(zombie);
         zombie.atacando = true;
         zombie.atacar(planta);
@@ -301,7 +301,7 @@ function draw() {
   //conlision entre mina y zombies
   for (let planta of plantasColocadas) {
     for (let zombie of zombiesCreados) {
-      if (zombie.x <= planta.x + 10 && zombie.x >= planta.x && zombie.numeroFila === planta.fila && planta.name == 'mina') {
+      if (zombie.x <= planta.x + 10 && zombie.x >= planta.x - 10 && zombie.numeroFila === planta.fila && planta.name == 'mina') {
         verificarZombiesCercanos(zombie);
         quitarPlanta(planta);
       }
@@ -551,6 +551,7 @@ function verificarZombiesAtacando() {
     zombie.atacando = false;
   }
 
+  //se eliminan todos los zombies que fueron guardados en el array (se vacía el array).
   zombiesAtacando.splice(0, zombiesAtacando.length);
   console.log(zombiesAtacando);
 }
