@@ -16,11 +16,9 @@ class Repetidora {
     draw() {
         if (this.isVisible) {
             image(this.img, this.x, this.y, cellWidth, cellHeight);
-            // Dibuja cada bala
+            // Dibuja cada bala usando la imagen imgBala
             this.bullets.forEach(bullet => {
-                fill('#18f423');
-                strokeWeight(1);
-                ellipse(bullet.x, bullet.y, 10, 10);
+                image(imgBala, bullet.x, bullet.y, 10, 10); // Usa la imagen de la bala
             });
         }
     }
@@ -39,8 +37,8 @@ class Repetidora {
     }
 
     shoot() {
-        // Añade dos nuevas balas a la lista
-        this.bullets.push({ x: this.x + 30, y: this.y + 7 });
-        this.bullets.push({ x: this.x + 45, y: this.y + 7 }); // Segunda bala
+        // Añade dos nuevas balas a la lista, utilizando la imagen para las balas
+        this.bullets.push({ x: this.x + 30, y: this.y + 4, img: imgBala });
+        this.bullets.push({ x: this.x + 45, y: this.y + 4, img: imgBala }); // Segunda bala
     }
 }

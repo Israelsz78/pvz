@@ -47,6 +47,7 @@ let cooldowns;
 let carrito;
 let carritos = [];
 let zombiesAtacando = [];
+let imgBala;
 
 function preload() {
   imgFondo = loadImage('assets/escenario.png');
@@ -96,6 +97,7 @@ function setup() {
   zombieCono = spriteSheetZombieCono.get(4, 2, 27, 54);
   zombieYeti = spriteSheetZombieYeti.get(103, 2, 40, 65);
   zombieBandera = spriteSheetZombieBandera.get(2, 4, 37, 52);
+  imgBala = spriteSheetLanzaguisante.get(78,43,10,10);
 
 
   imagenesDePlantas = {

@@ -4,7 +4,7 @@ class Lanzaguisante {
         this.x = x;
         this.y = y;
         this.img = img;
-        this.attackInterval = 1500; // Intervalo de disparo de 1.5 segundos
+        this.attackInterval = 1600; // Intervalo de disparo de 1.5 segundos
         this.lastAttackTime = millis(); // Tiempo desde el último disparo
         this.isVisible = true;
         this.fila = 0;
@@ -16,11 +16,9 @@ class Lanzaguisante {
     draw() {
         if (this.isVisible) {
             image(this.img, this.x, this.y, cellWidth, cellHeight);
-            // Dibuja cada bala
+            // Dibuja cada bala usando la imagen imgBala
             this.bullets.forEach(bullet => {
-                fill('#18f423');
-                strokeWeight(1);
-                ellipse(bullet.x, bullet.y, 10, 10);
+                image(imgBala, bullet.x, bullet.y, 10, 10); // Usa la imagen de la bala
             });
         }
     }
@@ -33,7 +31,7 @@ class Lanzaguisante {
         }
         // Mueve cada bala y verifica si aún está en la pantalla
         this.bullets.forEach(bullet => {
-            bullet.x += 1.5; // Aumenta la posición x de la bala
+            bullet.x += 1.5; // Ajusta la velocidad de la bala
         });
         // Elimina las balas fuera de la pantalla
         this.bullets = this.bullets.filter(bullet => bullet.x < width);
@@ -41,6 +39,6 @@ class Lanzaguisante {
 
     shoot() {
         // Añade una nueva bala a la lista
-        this.bullets.push({ x: this.x + 30, y: this.y + 7 });
+        this.bullets.push({ x: this.x + 30, y: this.y + 3, img: imgBala }); // Asegura usar la imagen para la bala
     }
 }
