@@ -215,7 +215,6 @@ function draw() {
     image(imgActualSeguirCursor, mouseX - 10, mouseY - 9, 27, 33);
   }
 
-
   var tAct = millis();
   var difT = tAct - registroT;
   if (difT >= periodoT) {
@@ -225,7 +224,6 @@ function draw() {
 
   plantasColocadas.forEach(planta => {
     planta.draw();
-    planta.update();
   });
 
   zombiesCreados.forEach((zombie) => {
@@ -279,7 +277,27 @@ function draw() {
   for (let zombie of zombiesCreados) {
     for (let planta of plantasColocadas) {
       if (zombie.x <= planta.x + 10 && zombie.x >= planta.x && zombie.numeroFila === planta.fila && planta.name != 'mina') {
-        quitarPlanta(planta);
+        zombie.atacando = true;
+        zombie.atacar();
+        if (zombie.golpes === 300) {
+          quitarPlanta(planta);
+          zombie.atacando = false;
+          zombie.goles = 0;
+        }
+      }
+    }
+  }
+
+  for (let zombie of zombiesCreados) {
+    for (let planta of plantasColocadas) {
+      if (zombie.x <= planta.x + 10 && zombie.x >= planta.x && zombie.numeroFila === planta.fila && planta.name === 'nuez') {
+        zombie.atacando = true;
+        zombie.atacar();
+        if (zombie.golpes === 2500) {
+          quitarPlanta(planta);
+          zombie.atacando = false;
+          zombie.golpes = 0;
+        }
       }
     }
   }
@@ -301,6 +319,7 @@ function draw() {
     }
   }
 
+
   for (let carrito of carritos) {
     carrito.draw();
   }
@@ -314,18 +333,21 @@ function draw() {
     }
   }
 
+  //si un el carrito ya fue tocado, entonces empezará a arrancar
   for (let carrito of carritos) {
     if (carrito.arrancar) {
       carrito.run();
     }
   }
 
+  // si el carrito está se sale de la pantalla, se elimina del array (deja de existir)
   for (let carrito of carritos) {
     if (carrito.x >= width) {
       eliminarCarrito(carrito);
     }
   }
 
+  //cada que un carrito toque un zombie, los mata
   for (let carrito of carritos) {
     for (let zombie of zombiesCreados) {
       if (carrito.x + 10 >= zombie.x && zombie.numeroFila === carrito.numeroFila && carrito.arrancar) {
@@ -371,6 +393,8 @@ function draw() {
   }
   image(planta5, 116, -8, 25, 32);
   noTint();
+
+
 }
 
 function generarSolAleatorio() {

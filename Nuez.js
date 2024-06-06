@@ -1,6 +1,6 @@
 class Nuez {
     constructor(x, y, img) {
-        this.name = '';
+        this.name = 'nuez';
         this.x = x;
         this.y = y;
         this.img = img;
@@ -9,6 +9,7 @@ class Nuez {
         this.isVisible = true;
         this.fila = 0;
         this.columna = 0;
+        this.atacando = false;
     }
 
     draw() {
@@ -17,7 +18,8 @@ class Nuez {
         }
     }
 
-    update() {
-        // Actualizar estado de la Nuez, por ejemplo, manejar daño
+    atacar() {
+        this.golpes++;
+        console.log(this.golpes);
     }
 }
