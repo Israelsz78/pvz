@@ -21,7 +21,7 @@ let imgActualSeguirCursor = null;
 let zombiesCreados = [];
 var periodoT = 8000;
 var registroT;
-let puntos = 500;
+let puntos = 200;
 let costosPlantas;
 let spriteSheetSol;
 let sol;
@@ -52,6 +52,7 @@ let nuezDañada;
 let nuezMuyDañada;
 let explosion;
 let balaImpactada;
+let imgGameOver;
 
 function preload() {
   imgFondo = loadImage('assets/escenario.png');
@@ -79,6 +80,7 @@ function preload() {
   spriteSheetGirasol = loadImage('assets/Girasolbrillando.png');
   spriteSheetZombieBandera = loadImage('assets/zombiebandera.png');
   carrito = loadImage('assets/carrito.png')
+  imgGameOver = loadImage('assets/gameover1.png');
 }
 
 function setup() {
@@ -105,7 +107,7 @@ function setup() {
   nuezDañada = spriteSheetNuez.get(0, 33, 27, 30);
   nuezMuyDañada = spriteSheetNuez.get(1, 64, 26, 28);
   explosion = spriteSheetMina.get(0, 40, 53, 46);
-  balaImpactada = spriteSheetLanzaguisante.get(100,40,13,15);
+  balaImpactada = spriteSheetLanzaguisante.get(100, 40, 13, 15);
 
 
 
@@ -243,10 +245,10 @@ function draw() {
 
   zombiesCreados.forEach((zombie) => {
     zombie.mover();
-    
+
   });
 
-  
+
 
   let tiempoActual = millis();
   if (tiempoActual - ultimoTiempoSol > tiempoEntreSoles) {
@@ -433,7 +435,12 @@ function draw() {
   image(planta5, 116, -8, 25, 32);
   noTint();
 
-
+  for (let zombie of zombiesCreados) {
+    if (zombie.x <= -24) {
+      image(imgGameOver, 45, 10, 170, 170);
+      noLoop();
+    }
+  }
 }
 
 function generarSolAleatorio() {
