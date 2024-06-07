@@ -9,6 +9,7 @@ class ZombieCono {
         this.isVisible = true;
         this.atacando = false;
         this.golpes = 0;
+        this.vida = 5;
     }
 
     mover() {

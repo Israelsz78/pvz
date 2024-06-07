@@ -99,11 +99,11 @@ function setup() {
   zombieCono = spriteSheetZombieCono.get(4, 2, 27, 54);
   zombieYeti = spriteSheetZombieYeti.get(103, 2, 40, 65);
   zombieBandera = spriteSheetZombieBandera.get(2, 4, 37, 52);
-  imgBala = spriteSheetLanzaguisante.get(78,43,10,10);
-  nuezDañada = spriteSheetNuez.get(0,33,27,30);
-  nuezMuyDañada = spriteSheetNuez.get(1,64,26,28);
+  imgBala = spriteSheetLanzaguisante.get(78, 43, 10, 10);
+  nuezDañada = spriteSheetNuez.get(0, 33, 27, 30);
+  nuezMuyDañada = spriteSheetNuez.get(1, 64, 26, 28);
 
-  
+
 
   imagenesDePlantas = {
     "Repetidora": imgPlanta1,
@@ -166,7 +166,7 @@ function draw() {
   image(planta3, 68, -4, 25, 31);
   image(planta4, 91, -2, 25, 29);
   image(planta5, 116, -8, 25, 32);
-  
+
 
   image(plantaSeleccionada === "Repetidora" ? imgPlanta1Selected : planta1, 129, 0, 41, 26);
   image(plantaSeleccionada === "Girasol" ? imgPlanta2Selected : planta2, 39, -2, 29, 27);
@@ -298,7 +298,33 @@ function draw() {
       }
     }
   }
-  
+
+  //ciclo anidador para verificar si hay zombies en la misma fila de la planta --CHECAR BIEN!!!!!
+  for (let planta of plantasColocadas) {
+    for (let zombie of zombiesCreados) {
+      if (planta.fila === zombie.numeroFila) {
+        planta.hayZombies = true;
+
+        if (planta.name === 'Lanzaguisante' || planta.name === 'Repetidora') {
+          for (let bullet of planta.bullets) {
+            if (bullet.x >= zombie.x) {
+              bullet.tocoZombie = true;
+              zombie.vida--;
+              console.log(zombie.vida);
+            }
+          }
+        }
+      }
+    }
+  }
+
+
+  for (let zombie of zombiesCreados) {
+    if (zombie.vida === 0) {
+      quitarZombie(zombie);
+    }
+  }
+
   //colision entre mina y zombies
   for (let planta of plantasColocadas) {
     for (let zombie of zombiesCreados) {
@@ -383,8 +409,6 @@ function draw() {
   }
   image(planta5, 116, -8, 25, 32);
   noTint();
-
-
 }
 
 function generarSolAleatorio() {
@@ -400,7 +424,7 @@ function generarSolAleatorio() {
     y: initialY,
     finalY: finalY,
     recolectado: false,
-    width: cellWidth * 0.3,  
+    width: cellWidth * 0.3,
     height: cellHeight * 0.3
   });
 }
@@ -435,13 +459,13 @@ function mouseClicked() {
         if (puntos >= costosPlantas[planta.nombre]) {
           plantaSeleccionada = planta.nombre;
           imgActualSeguirCursor = imagenesDePlantas[planta.nombre];
-          ultimosUsos[planta.nombre] = millis();  
+          ultimosUsos[planta.nombre] = millis();
         } else {
           console.log("No tienes suficientes puntos para colocar una " + planta.nombre + ".");
         }
       }
       plantaColocada = false;
-      return; 
+      return;
     }
   }
 
@@ -466,9 +490,9 @@ function mouseClicked() {
         planta = new Girasol(x, y, imgPlanta2, girasolBrillando);
       }
 
-      if(plantaSeleccionada === "Nuez"){
-         planta = new Nuez(x, y, imgPlanta5, nuezDañada, nuezMuyDañada);
-  
+      if (plantaSeleccionada === "Nuez") {
+        planta = new Nuez(x, y, imgPlanta5, nuezDañada, nuezMuyDañada);
+
       }
 
       if (planta) {
@@ -533,6 +557,8 @@ function quitarZombie(zombie) {
   zombie.isVisible = false;
   let indexZombie = zombiesCreados.findIndex(zomb => zomb === zombie);
   zombiesCreados.splice(indexZombie, 1);
+
+  console.log(zombiesCreados);
 }
 
 function verificarZombiesCercanos(zombieExplotado) {

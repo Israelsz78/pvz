@@ -8,6 +8,7 @@ class ZombieCubo {
         this.numeroFila = Math.floor(Math.random() * 5);
         this.isVisible = true;
         this.golpes = 0;
+        this.vida = 5;
     }
 
     mover() {

@@ -11,34 +11,51 @@ class Lanzaguisante {
         this.columna = 0;
         this.bullets = []; // Arreglo para las balas
         this.vida = 250;
+        this.hayZombies = false;
     }
 
     draw() {
         if (this.isVisible) {
             image(this.img, this.x, this.y, cellWidth, cellHeight);
-            // Dibuja cada bala usando la imagen imgBala
-            this.bullets.forEach(bullet => {
-                image(imgBala, bullet.x, bullet.y, 10, 10); // Usa la imagen de la bala
-            });
+            if (this.hayZombies) {
+                // Dibuja cada bala usando la imagen imgBala
+                this.bullets.forEach(bullet => {
+                    if (!bullet.tocoZombie) {
+                        image(imgBala, bullet.x, bullet.y, 10, 10); // Usa la imagen de la bala
+                    }
+                });
+            }
         }
     }
 
     update() {
-        let currentTime = millis();
-        if (currentTime - this.lastAttackTime >= this.attackInterval) {
-            this.shoot();
-            this.lastAttackTime = currentTime; // Actualiza el tiempo del último disparo
+        if (this.hayZombies) {
+            let currentTime = millis();
+            if (currentTime - this.lastAttackTime >= this.attackInterval) {
+                this.shoot();
+                this.lastAttackTime = currentTime; // Actualiza el tiempo del último disparo
+            }
+            // Mueve cada bala y verifica si aún está en la pantalla
+            this.bullets.forEach(bullet => {
+                bullet.x += 1.5; // Ajusta la velocidad de la bala
+            });
+            // Elimina las balas fuera de la pantalla
+            this.bullets = this.bullets.filter(bullet => bullet.x < width);
         }
-        // Mueve cada bala y verifica si aún está en la pantalla
+
+        //va verificando si alguna bala toco zombie, si tocó se elimina del array bullets
         this.bullets.forEach(bullet => {
-            bullet.x += 1.5; // Ajusta la velocidad de la bala
+            if (bullet.tocoZombie) {
+                let indexBullet = this.bullets.findIndex(bull => bull === bullet);
+                this.bullets.splice(indexBullet, 1);
+            }
         });
-        // Elimina las balas fuera de la pantalla
-        this.bullets = this.bullets.filter(bullet => bullet.x < width);
     }
 
     shoot() {
-        // Añade una nueva bala a la lista
-        this.bullets.push({ x: this.x + 30, y: this.y + 3, img: imgBala }); // Asegura usar la imagen para la bala
+        if (this.hayZombies) {
+            // Añade una nueva bala a la lista
+            this.bullets.push({ x: this.x + 30, y: this.y + 3, img: imgBala, tocoZombie: false }); // Asegura usar la imagen para la bala
+        }
     }
 }
