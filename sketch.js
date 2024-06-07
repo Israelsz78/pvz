@@ -50,6 +50,7 @@ let zombiesAtacando = [];
 let imgBala;
 let nuezDañada;
 let nuezMuyDañada;
+let explosion;
 
 function preload() {
   imgFondo = loadImage('assets/escenario.png');
@@ -284,44 +285,26 @@ function draw() {
 
 
   //detectar colision
-  for (let zombie of zombiesCreados) {
-    for (let planta of plantasColocadas) {
-      if (zombie.x <= planta.x + 10 && zombie.x >= planta.x - 12 && zombie.numeroFila === planta.fila && planta.name != 'mina') {
+  // Colisión entre mina y zombies
+  for (let planta of plantasColocadas) {
+    for (let zombie of zombiesCreados) {
+      // Verificar primero si es una mina y manejar esa situación
+      if (planta.name === 'Mina' && zombie.x <= planta.x + 10 && zombie.x >= planta.x - 10 && zombie.numeroFila === planta.fila) {
+        verificarZombiesCercanos(zombie);
+        planta.explode(); // Llama al método explode en vez de quitarPlanta
+        quitarZombie(zombie);  // Eliminar el zombie
+      }
+      // Ahora manejar el caso de las demás plantas que no son minas
+      else if (planta.name !== 'Mina' && zombie.x <= planta.x + 10 && zombie.x >= planta.x - 10 && zombie.numeroFila === planta.fila) {
         zombiesAtacando.push(zombie);
         zombie.atacando = true;
         zombie.atacar(planta);
-        if (planta.vida === 0) {
+        if (planta.vida <= 0) {
           verificarZombiesAtacando();
           quitarPlanta(planta);
           zombie.atacando = false;
         }
       }
-    }
-  }
-
-  //ciclo anidador para verificar si hay zombies en la misma fila de la planta --CHECAR BIEN!!!!!
-  for (let planta of plantasColocadas) {
-    for (let zombie of zombiesCreados) {
-      if (planta.fila === zombie.numeroFila) {
-        planta.hayZombies = true;
-
-        if (planta.name === 'Lanzaguisante' || planta.name === 'Repetidora') {
-          for (let bullet of planta.bullets) {
-            if (bullet.x >= zombie.x) {
-              bullet.tocoZombie = true;
-              zombie.vida--;
-              console.log(zombie.vida);
-            }
-          }
-        }
-      }
-    }
-  }
-
-
-  for (let zombie of zombiesCreados) {
-    if (zombie.vida === 0) {
-      quitarZombie(zombie);
     }
   }
 
