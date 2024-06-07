@@ -103,6 +103,7 @@ function setup() {
   imgBala = spriteSheetLanzaguisante.get(78, 43, 10, 10);
   nuezDañada = spriteSheetNuez.get(0, 33, 27, 30);
   nuezMuyDañada = spriteSheetNuez.get(1, 64, 26, 28);
+  explosion = spriteSheetMina.get(0, 40, 53, 46);
 
 
 
@@ -167,6 +168,7 @@ function draw() {
   image(planta3, 68, -4, 25, 31);
   image(planta4, 91, -2, 25, 29);
   image(planta5, 116, -8, 25, 32);
+
 
 
   image(plantaSeleccionada === "Repetidora" ? imgPlanta1Selected : planta1, 129, 0, 41, 26);
@@ -285,6 +287,47 @@ function draw() {
 
 
   //detectar colision
+  for (let zombie of zombiesCreados) {
+    for (let planta of plantasColocadas) {
+      if (zombie.x <= planta.x + 10 && zombie.x >= planta.x - 12 && zombie.numeroFila === planta.fila && planta.name != 'mina') {
+        zombiesAtacando.push(zombie);
+        zombie.atacando = true;
+        zombie.atacar(planta);
+        if (planta.vida === 0) {
+          verificarZombiesAtacando();
+          quitarPlanta(planta);
+          zombie.atacando = false;
+        }
+      }
+    }
+  }
+
+  //ciclo anidador para verificar si hay zombies en la misma fila de la planta --CHECAR BIEN!!!!!
+  for (let planta of plantasColocadas) {
+    for (let zombie of zombiesCreados) {
+      if (planta.fila === zombie.numeroFila) {
+        planta.hayZombies = true;
+
+        if (planta.name === 'Lanzaguisante' || planta.name === 'Repetidora') {
+          for (let bullet of planta.bullets) {
+            if (bullet.x >= zombie.x) {
+              bullet.tocoZombie = true;
+              zombie.vida--;
+              console.log(zombie.vida);
+            }
+          }
+        }
+      }
+    }
+  }
+
+
+  for (let zombie of zombiesCreados) {
+    if (zombie.vida === 0) {
+      quitarZombie(zombie);
+    }
+  }
+
   // Colisión entre mina y zombies
   for (let planta of plantasColocadas) {
     for (let zombie of zombiesCreados) {
@@ -308,15 +351,7 @@ function draw() {
     }
   }
 
-  //colision entre mina y zombies
-  for (let planta of plantasColocadas) {
-    for (let zombie of zombiesCreados) {
-      if (zombie.x <= planta.x + 10 && zombie.x >= planta.x - 10 && zombie.numeroFila === planta.fila && planta.name == 'Mina') {
-        verificarZombiesCercanos(zombie);
-        quitarPlanta(planta);
-      }
-    }
-  }
+
 
 
   for (let carrito of carritos) {
@@ -392,6 +427,8 @@ function draw() {
   }
   image(planta5, 116, -8, 25, 32);
   noTint();
+
+
 }
 
 function generarSolAleatorio() {
@@ -540,8 +577,6 @@ function quitarZombie(zombie) {
   zombie.isVisible = false;
   let indexZombie = zombiesCreados.findIndex(zomb => zomb === zombie);
   zombiesCreados.splice(indexZombie, 1);
-
-  console.log(zombiesCreados);
 }
 
 function verificarZombiesCercanos(zombieExplotado) {

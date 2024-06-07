@@ -47,4 +47,3 @@ class ZombieNormal {
     console.log(planta.vida);
   }
 }
-

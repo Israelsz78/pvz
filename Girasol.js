@@ -5,7 +5,7 @@ class Girasol {
         this.y = y;
         this.img = img;
         this.imgActive = imgActive;
-        this.currentImage = img;  
+        this.currentImage = img;
         this.lastProducedSol = millis();
         this.produceSolInterval = 3000;
         this.activeDuration = 500;
