@@ -50,6 +50,7 @@ let zombiesAtacando = [];
 let imgBala;
 let nuezDañada;
 let nuezMuyDañada;
+let explosion;
 
 function preload() {
   imgFondo = loadImage('assets/escenario.png');
@@ -102,6 +103,7 @@ function setup() {
   imgBala = spriteSheetLanzaguisante.get(78,43,10,10);
   nuezDañada = spriteSheetNuez.get(0,33,27,30);
   nuezMuyDañada = spriteSheetNuez.get(1,64,26,28);
+  explosion = spriteSheetMina.get(0,40,53,46);
 
   
 
@@ -166,6 +168,7 @@ function draw() {
   image(planta3, 68, -4, 25, 31);
   image(planta4, 91, -2, 25, 29);
   image(planta5, 116, -8, 25, 32);
+  
   
 
   image(plantaSeleccionada === "Repetidora" ? imgPlanta1Selected : planta1, 129, 0, 41, 26);
@@ -284,30 +287,30 @@ function draw() {
 
 
   //detectar colision
+  // Colisión entre mina y zombies
+for (let planta of plantasColocadas) {
   for (let zombie of zombiesCreados) {
-    for (let planta of plantasColocadas) {
-      if (zombie.x <= planta.x + 10 && zombie.x >= planta.x - 12 && zombie.numeroFila === planta.fila && planta.name != 'mina') {
-        zombiesAtacando.push(zombie);
-        zombie.atacando = true;
-        zombie.atacar(planta);
-        if (planta.vida === 0) {
-          verificarZombiesAtacando();
-          quitarPlanta(planta);
-          zombie.atacando = false;
-        }
+      if (zombie.x <= planta.x + 10 && zombie.x >= planta.x - 10 && zombie.numeroFila === planta.fila && planta.name == 'Mina') {
+          verificarZombiesCercanos(zombie);
+          planta.explode();  // Llama al método explode en vez de quitarPlanta
+          quitarZombie(zombie);  // Asumiendo que también quieres quitar el zombie de inmediato
       }
-    }
   }
+}
+
   
   //colision entre mina y zombies
-  for (let planta of plantasColocadas) {
-    for (let zombie of zombiesCreados) {
+  // Colisión entre mina y zombies
+for (let planta of plantasColocadas) {
+  for (let zombie of zombiesCreados) {
       if (zombie.x <= planta.x + 10 && zombie.x >= planta.x - 10 && zombie.numeroFila === planta.fila && planta.name == 'Mina') {
-        verificarZombiesCercanos(zombie);
-        quitarPlanta(planta);
+          verificarZombiesCercanos(zombie);
+          planta.update();  // Llama al método explode en vez de quitarPlanta
+          quitarZombie(zombie);  // Asumiendo que también quieres quitar el zombie de inmediato
       }
-    }
   }
+}
+
 
 
   for (let carrito of carritos) {

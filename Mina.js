@@ -4,29 +4,45 @@ class Mina {
         this.x = x;
         this.y = y;
         this.img = img;
-        this.attackInterval = 1000; // Cada segundo
-        this.lastAttackTime = millis();
         this.isVisible = true;
         this.fila = 0;
         this.columna = 0;
+        this.isExploding = false;  
+        this.explosionStartTime = 0;
+        this.explosionDuration = 1300; 
     }
 
     draw() {
-        if (this.isVisible) {
+        if (this.isVisible && !this.isExploding) {
             image(this.img, this.x, this.y, cellWidth, cellHeight);
+        }
+        if (this.isExploding) {
+            let elapsedTime = millis() - this.explosionStartTime;
+            if (elapsedTime < this.explosionDuration) {
+                let scaleFactor = 1.5; 
+                let newWidth = cellWidth * scaleFactor;
+                let newHeight = cellHeight * scaleFactor;
+                let offsetX = (cellWidth - newWidth) / 2;  // Ajustar para centrar
+                let offsetY = (cellHeight - newHeight) / 2;  // Ajustar para centrar
+                image(explosion, this.x + offsetX, this.y + offsetY, newWidth, newHeight);
+            } else {
+                this.isExploding = false; 
+                this.isVisible = false;  
+            }
         }
     }
 
-    update() {
-        // Actualmente vacío, ya que no hay funcionalidad de interacción
+    update(){
+
     }
 
-    // Puedes dejar estos métodos vacíos o comentados si planeas añadir funcionalidad más adelante
-    checkForZombies() {
-        // Funcionalidad para más adelante
+    checkForZombies(){
+
     }
 
     explode() {
-        // Funcionalidad para más adelante
+        this.isExploding = true;
+        this.explosionStartTime = millis()
+        this.isVisible = false;
     }
 }
