@@ -26,7 +26,7 @@ let costosPlantas;
 let spriteSheetSol;
 let sol;
 let soles = [];
-let tiempoEntreSoles = 3000;
+let tiempoEntreSoles = 10000;
 let ultimoTiempoSol = 0;
 let gridStartX, gridStartY, gridWidth, gridHeight, cellWidth, cellHeight;
 let spriteSheetGirasol;
@@ -51,6 +51,7 @@ let imgBala;
 let nuezDañada;
 let nuezMuyDañada;
 let explosion;
+let balaImpactada;
 
 function preload() {
   imgFondo = loadImage('assets/escenario.png');
@@ -104,6 +105,7 @@ function setup() {
   nuezDañada = spriteSheetNuez.get(0, 33, 27, 30);
   nuezMuyDañada = spriteSheetNuez.get(1, 64, 26, 28);
   explosion = spriteSheetMina.get(0, 40, 53, 46);
+  balaImpactada = spriteSheetLanzaguisante.get(100,40,13,15);
 
 
 
@@ -241,7 +243,10 @@ function draw() {
 
   zombiesCreados.forEach((zombie) => {
     zombie.mover();
+    
   });
+
+  
 
   let tiempoActual = millis();
   if (tiempoActual - ultimoTiempoSol > tiempoEntreSoles) {

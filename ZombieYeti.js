@@ -9,7 +9,7 @@ class ZombieYeti {
         this.isVisible = true;
         this.atacando = false;
         this.golpes = 0;
-        this.vida = 5;
+        this.vida = 20;
     }
 
     mover() {

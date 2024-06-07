@@ -9,7 +9,7 @@ class ZombieNormal {
     this.golpes = 0;
     this.isVisible = true;
     this.atacando = false;
-    this.vida = 5;
+    this.vida = 7;
   }
 
   mover() {
