@@ -10,7 +10,7 @@ class Repetidora {
         this.fila = 0;
         this.columna = 0;
         this.bullets = []; // Arreglo para las balas
-        this.vida = 800;
+        this.vida = 330;
     }
 
     draw() {

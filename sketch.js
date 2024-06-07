@@ -48,6 +48,8 @@ let carrito;
 let carritos = [];
 let zombiesAtacando = [];
 let imgBala;
+let nuezDañada;
+let nuezMuyDañada;
 
 function preload() {
   imgFondo = loadImage('assets/escenario.png');
@@ -98,7 +100,10 @@ function setup() {
   zombieYeti = spriteSheetZombieYeti.get(103, 2, 40, 65);
   zombieBandera = spriteSheetZombieBandera.get(2, 4, 37, 52);
   imgBala = spriteSheetLanzaguisante.get(78,43,10,10);
+  nuezDañada = spriteSheetNuez.get(0,33,27,30);
+  nuezMuyDañada = spriteSheetNuez.get(1,64,26,28);
 
+  
 
   imagenesDePlantas = {
     "Repetidora": imgPlanta1,
@@ -161,6 +166,7 @@ function draw() {
   image(planta3, 68, -4, 25, 31);
   image(planta4, 91, -2, 25, 29);
   image(planta5, 116, -8, 25, 32);
+  
 
   image(plantaSeleccionada === "Repetidora" ? imgPlanta1Selected : planta1, 129, 0, 41, 26);
   image(plantaSeleccionada === "Girasol" ? imgPlanta2Selected : planta2, 39, -2, 29, 27);
@@ -293,7 +299,7 @@ function draw() {
     }
   }
   
-  //conlision entre mina y zombies
+  //colision entre mina y zombies
   for (let planta of plantasColocadas) {
     for (let zombie of zombiesCreados) {
       if (zombie.x <= planta.x + 10 && zombie.x >= planta.x - 10 && zombie.numeroFila === planta.fila && planta.name == 'Mina') {
@@ -394,7 +400,7 @@ function generarSolAleatorio() {
     y: initialY,
     finalY: finalY,
     recolectado: false,
-    width: cellWidth * 0.3,  // Reducir tamaño del sol
+    width: cellWidth * 0.3,  
     height: cellHeight * 0.3
   });
 }
@@ -429,17 +435,16 @@ function mouseClicked() {
         if (puntos >= costosPlantas[planta.nombre]) {
           plantaSeleccionada = planta.nombre;
           imgActualSeguirCursor = imagenesDePlantas[planta.nombre];
-          ultimosUsos[planta.nombre] = millis();  // Actualizamos el último uso al seleccionar
+          ultimosUsos[planta.nombre] = millis();  
         } else {
           console.log("No tienes suficientes puntos para colocar una " + planta.nombre + ".");
         }
       }
       plantaColocada = false;
-      return; // Salir una vez que se maneja la selección
+      return; 
     }
   }
 
-  // Mantén la sección que maneja la colocación de plantas en la cuadrícula aquí si es necesaria
   let gridStartX = imgWidth * 0.03;
   let gridStartY = imgHeight * 0.13;
   let gridWidth = imgWidth * 0.91;
@@ -459,6 +464,11 @@ function mouseClicked() {
       //pongo esta condicional para que el sol brille
       if (plantaSeleccionada === "Girasol") {
         planta = new Girasol(x, y, imgPlanta2, girasolBrillando);
+      }
+
+      if(plantaSeleccionada === "Nuez"){
+         planta = new Nuez(x, y, imgPlanta5, nuezDañada, nuezMuyDañada);
+  
       }
 
       if (planta) {
