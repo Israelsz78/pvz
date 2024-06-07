@@ -479,6 +479,10 @@ function mouseClicked() {
 
   for (let planta of plantas) {
     if (mouseX >= planta.xMin && mouseX <= planta.xMax && mouseY >= planta.yMin && mouseY <= planta.yMax) {
+      if (millis() - ultimosUsos[planta.nombre] < cooldowns[planta.nombre]) {
+        console.log(planta.nombre + " está en cooldown. Espera " + ((cooldowns[planta.nombre] - (millis() - ultimosUsos[planta.nombre])) / 1000).toFixed(1) + " segundos.");
+        return;
+      }
       if (plantaSeleccionada === planta.nombre) {
         plantaSeleccionada = null;
         imgActualSeguirCursor = null;
@@ -486,6 +490,7 @@ function mouseClicked() {
         if (puntos >= costosPlantas[planta.nombre]) {
           plantaSeleccionada = planta.nombre;
           imgActualSeguirCursor = imagenesDePlantas[planta.nombre];
+          ultimosUsos[planta.nombre] = millis();
         } else {
           console.log("No tienes suficientes puntos para colocar una " + planta.nombre + ".");
         }
@@ -526,11 +531,7 @@ function mouseClicked() {
         planta.columna = column;
         plantasColocadas.push(planta);
         celdasOcupadas[celdaKey] = true;
-        puntos -= costosPlantas[plantaSeleccionada];
-
-        // Aplicar cooldown solo después de colocar la planta
-        ultimosUsos[plantaSeleccionada] = millis();
-
+        puntos -= costosPlantas[plantaSeleccionada];    // Aplicar cooldown solo después de colocar la plant
         plantaSeleccionada = null;
         imgActualSeguirCursor = null;
         console.log(celdaKey);
