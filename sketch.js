@@ -65,7 +65,7 @@ function preload() {
   spriteSheetGirasolNormal = loadImage('assets/girasolbrillando.png');
   spriteSheetLanzaguisante = loadImage('assets/lanzaguisante.png');
   spriteSheetMina = loadImage('assets/mina.png');
-  spriteSheetNuez = loadImage('assets/Nuez.png');
+  spriteSheetNuez = loadImage('assets/nuez.png');
   imgPlanta1Selected = loadImage('assets/iconoEnojadaSelected.png');
   imgPlanta2Selected = loadImage('assets/iconoGirasolSelected.png');
   imgPlanta3Selected = loadImage('assets/iconoLanzaguisantesSelected.png');
