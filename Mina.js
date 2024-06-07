@@ -12,6 +12,11 @@ class Mina {
         this.explosionDuration = 1300; 
     }
 
+    explode() {
+        this.isExploding = true;
+        this.explosionStartTime = millis()
+    }
+
     draw() {
         if (this.isVisible && !this.isExploding) {
             image(this.img, this.x, this.y, cellWidth, cellHeight);
@@ -22,12 +27,13 @@ class Mina {
                 let scaleFactor = 1.5; 
                 let newWidth = cellWidth * scaleFactor;
                 let newHeight = cellHeight * scaleFactor;
-                let offsetX = (cellWidth - newWidth) / 2;  // Ajustar para centrar
-                let offsetY = (cellHeight - newHeight) / 2;  // Ajustar para centrar
+                let offsetX = (cellWidth - newWidth) / 2; 
+                let offsetY = (cellHeight - newHeight) / 2; 
                 image(explosion, this.x + offsetX, this.y + offsetY, newWidth, newHeight);
             } else {
-                this.isExploding = false; 
+                this.isExploding = false;
                 this.isVisible = false;  
+                quitarPlanta(this); 
             }
         }
     }
@@ -40,9 +46,5 @@ class Mina {
 
     }
 
-    explode() {
-        this.isExploding = true;
-        this.explosionStartTime = millis()
-        this.isVisible = false;
-    }
+    
 }

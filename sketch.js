@@ -288,28 +288,28 @@ function draw() {
 
   //detectar colision
   // Colisión entre mina y zombies
-for (let planta of plantasColocadas) {
-  for (let zombie of zombiesCreados) {
-      if (zombie.x <= planta.x + 10 && zombie.x >= planta.x - 10 && zombie.numeroFila === planta.fila && planta.name == 'Mina') {
-          verificarZombiesCercanos(zombie);
-          planta.explode();  // Llama al método explode en vez de quitarPlanta
-          quitarZombie(zombie);  // Asumiendo que también quieres quitar el zombie de inmediato
-      }
-  }
+  for (let planta of plantasColocadas) {
+    for (let zombie of zombiesCreados) {
+        // Verificar primero si es una mina y manejar esa situación
+        if (planta.name === 'Mina' && zombie.x <= planta.x + 10 && zombie.x >= planta.x - 10 && zombie.numeroFila === planta.fila) {
+            verificarZombiesCercanos(zombie);
+            planta.explode(); // Llama al método explode en vez de quitarPlanta
+            quitarZombie(zombie);  // Eliminar el zombie
+        }
+        // Ahora manejar el caso de las demás plantas que no son minas
+        else if (planta.name !== 'Mina' && zombie.x <= planta.x + 10 && zombie.x >= planta.x - 10 && zombie.numeroFila === planta.fila) {
+            zombiesAtacando.push(zombie);
+            zombie.atacando = true;
+            zombie.atacar(planta);
+            if (planta.vida <= 0) {
+                verificarZombiesAtacando();
+                quitarPlanta(planta);
+                zombie.atacando = false;
+            }
+        }
+    }
 }
 
-  
-  //colision entre mina y zombies
-  // Colisión entre mina y zombies
-for (let planta of plantasColocadas) {
-  for (let zombie of zombiesCreados) {
-      if (zombie.x <= planta.x + 10 && zombie.x >= planta.x - 10 && zombie.numeroFila === planta.fila && planta.name == 'Mina') {
-          verificarZombiesCercanos(zombie);
-          planta.update();  // Llama al método explode en vez de quitarPlanta
-          quitarZombie(zombie);  // Asumiendo que también quieres quitar el zombie de inmediato
-      }
-  }
-}
 
 
 
