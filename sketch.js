@@ -75,7 +75,7 @@ function preload() {
   spriteSheetZombieNormal = loadImage('assets/zombieNormal.png');
   spriteSheetZombieCono = loadImage('assets/zombiecaracono.png');
   spriteSheetZombieCubo = loadImage('assets/zombiecaracubo.png');
-  spriteSheetZombieYeti = loadImage('assets/zombieyeti.png');
+  spriteSheetZombieYeti = loadImage('assets/zombieYeti.png');
   spriteSheetSol = loadImage('assets/sol.png');
   spriteSheetGirasol = loadImage('assets/Girasolbrillando.png');
   spriteSheetZombieBandera = loadImage('assets/zombiebandera.png');
