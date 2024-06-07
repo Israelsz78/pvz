@@ -61,10 +61,10 @@ function preload() {
   planta3 = loadImage('assets/iconoLanzaguisante.png');
   planta4 = loadImage('assets/iconoMina.png');
   planta5 = loadImage('assets/iconoNuez.png');
-  spriteSheetRepetidora = loadImage('assets/Repetidora.png');
-  spriteSheetGirasolNormal = loadImage('assets/Girasolbrillando.png');
-  spriteSheetLanzaguisante = loadImage('assets/Lanzaguisante.png');
-  spriteSheetMina = loadImage('assets/Mina.png');
+  spriteSheetRepetidora = loadImage('assets/repetidora.png');
+  spriteSheetGirasolNormal = loadImage('assets/girasolbrillando.png');
+  spriteSheetLanzaguisante = loadImage('assets/lanzaguisante.png');
+  spriteSheetMina = loadImage('assets/mina.png');
   spriteSheetNuez = loadImage('assets/Nuez.png');
   imgPlanta1Selected = loadImage('assets/iconoEnojadaSelected.png');
   imgPlanta2Selected = loadImage('assets/iconoGirasolSelected.png');
@@ -77,10 +77,10 @@ function preload() {
   spriteSheetZombieCubo = loadImage('assets/zombiecaracubo.png');
   spriteSheetZombieYeti = loadImage('assets/zombieyeti.png');
   spriteSheetSol = loadImage('assets/sol.png');
-  spriteSheetGirasol = loadImage('assets/Girasolbrillando.png');
+  spriteSheetGirasol = loadImage('assets/girasolbrillando.png');
   spriteSheetZombieBandera = loadImage('assets/zombiebandera.png');
   carrito = loadImage('assets/carrito.png')
-  imgGameOver = loadImage('assets/gameover1.png');
+  imgGameOver = loadImage('assets/gameover.png');
 }
 
 function setup() {
