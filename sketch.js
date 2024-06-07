@@ -72,7 +72,7 @@ function preload() {
   imgPlanta4Selected = loadImage('assets/iconoMinaSelected.png');
   imgPlanta5Selected = loadImage('assets/iconoNuezSelected.png');
   imgSol = loadImage('assets/iconoSol.png');
-  spriteSheetZombieNormal = loadImage('assets/zombienormal.png');
+  spriteSheetZombieNormal = loadImage('assets/zombieNormal.png');
   spriteSheetZombieCono = loadImage('assets/zombiecaracono.png');
   spriteSheetZombieCubo = loadImage('assets/zombiecaracubo.png');
   spriteSheetZombieYeti = loadImage('assets/zombieyeti.png');
